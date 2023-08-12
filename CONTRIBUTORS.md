@@ -10,6 +10,8 @@ Add yourself as a contributor to this project as a Markdown link that links your
 
 - [Magdalena Slifierz](https://github.com/MagdaSlifierz) :honeybee:
 
+- [Jenny Chou](https://github.com/codecaviette) :partying_face:
+
 ## Mentors
 
 ## Code of Conduct Contacts
