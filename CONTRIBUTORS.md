@@ -18,4 +18,8 @@ Add yourself as a contributor to this project as a Markdown link that links your
 
 - [Jeremiah Fallin](https://github.com/jeremiahfallin) 🙈
 
+- [Lyle Schemmerling](https://github.com/lyleschemmerling) 🐶
+
 ## Code of Conduct Contacts
+
+- [Stacey](https://github.com/stacietaylorcima)
