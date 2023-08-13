@@ -12,6 +12,8 @@ Add yourself as a contributor to this project as a Markdown link that links your
 
 - [Jenny Chou](https://github.com/codecaviette) :partying_face:
 
+- [Archaa Shrivastav](https://github.com/avinashi10) 📚
+
 ## Mentors
 
 - [Grace de la Mora](https://github.com/thetrend) 🧙🏼‍♀️
