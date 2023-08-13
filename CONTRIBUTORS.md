@@ -14,4 +14,6 @@ Add yourself as a contributor to this project as a Markdown link that links your
 
 ## Mentors
 
+- [Grace de la Mora](https://github.com/thetrend) 🧙🏼‍♀️
+
 ## Code of Conduct Contacts
