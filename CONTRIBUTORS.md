@@ -16,4 +16,6 @@ Add yourself as a contributor to this project as a Markdown link that links your
 
 - [Grace de la Mora](https://github.com/thetrend) 🧙🏼‍♀️
 
+- [Jeremiah Fallin](https://github.com/jeremiahfallin) 🙈
+
 ## Code of Conduct Contacts
