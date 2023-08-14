@@ -4,7 +4,7 @@ export function List({ data }) {
 	return (
 		<>
 			<p>
-				Hello from the <code>/list</code> page!
+				Hello from the <code>/list</code> page! Our first test
 			</p>
 			<ul>
 				{/**
