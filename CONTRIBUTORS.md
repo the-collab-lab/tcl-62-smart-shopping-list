@@ -24,4 +24,4 @@ Add yourself as a contributor to this project as a Markdown link that links your
 
 ## Code of Conduct Contacts
 
-- [Stacie](https://github.com/stacietaylorcima)
+- [Ayu Adiati](https://github.com/adiati98) 🤩
