@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, NavLink } from 'react-router-dom';
 
 import './Layout.css';
 
@@ -22,15 +22,30 @@ export function Layout() {
 				</main>
 				<nav className="Nav">
 					<div className="Nav-container">
-						<a href="#" className="Nav-link">
+						<NavLink
+							to="/"
+							className={({ isActive, isPending }) =>
+								isPending ? 'pending' : isActive ? 'active' : ''
+							}
+						>
 							Home
-						</a>
-						<a href="#" className="Nav-link">
+						</NavLink>
+						<NavLink
+							to="/list"
+							className={({ isActive, isPending }) =>
+								isPending ? 'pending' : isActive ? 'active' : ''
+							}
+						>
 							List
-						</a>
-						<a href="#" className="Nav-link">
+						</NavLink>
+						<NavLink
+							to="/add-item"
+							className={({ isActive, isPending }) =>
+								isPending ? 'pending' : isActive ? 'active' : ''
+							}
+						>
 							Add Item
-						</a>
+						</NavLink>
 					</div>
 				</nav>
 			</div>
