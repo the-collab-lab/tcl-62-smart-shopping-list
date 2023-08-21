@@ -20,7 +20,7 @@ export function App() {
 	 */
 	const [listToken, setListToken] = useStateWithStorage(
 		'tcl-shopping-list-token',
-		'my test list',
+		null,
 	);
 
 	/**
