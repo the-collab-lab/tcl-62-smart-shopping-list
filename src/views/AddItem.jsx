@@ -25,8 +25,9 @@ export function AddItem() {
 			daysUntilNextPurchase: days,
 		};
 
-		addItem('1', itemData);
-		// set object with itemName, daysUntilNextPurchase
+		addItem('my test list', itemData);
+		setItemName('');
+		setDays(7);
 	};
 
 	return (
@@ -39,6 +40,7 @@ export function AddItem() {
 			<label>
 				How soon will you buy this again?
 				<select onChange={handleDaysChange}>
+					<option value="">Please choose an option</option>
 					<option value="7">Soon</option>
 					<option value="14">Kind of Soon</option>
 					<option value="30">Not Soon</option>
