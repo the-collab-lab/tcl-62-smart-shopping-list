@@ -63,7 +63,6 @@ export async function addItem(listId, { itemName, daysUntilNextPurchase }) {
 			totalPurchases: 0,
 		});
 	} catch (error) {
-		console.log('Error adding list item: ', error);
 		throw error;
 	}
 }
