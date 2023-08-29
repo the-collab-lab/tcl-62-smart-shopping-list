@@ -1,4 +1,4 @@
-import { collection, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot, addDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { db } from './config';
 import { getFutureDate } from '../utils';
@@ -51,18 +51,20 @@ export function useShoppingListData(listId) {
  * @param {number} itemData.daysUntilNextPurchase The number of days until the user thinks they'll need to buy the item again.
  */
 export async function addItem(listId, { itemName, daysUntilNextPurchase }) {
-	const listCollectionRef = collection(db, listId);
-	// TODO: Replace this call to console.log with the appropriate
-	// Firebase function, so this information is sent to your database!
-	return console.log(listCollectionRef, {
-		dateCreated: new Date(),
-		// NOTE: This is null because the item has just been created.
-		// We'll use updateItem to put a Date here when the item is purchased!
-		dateLastPurchased: null,
-		dateNextPurchased: getFutureDate(daysUntilNextPurchase),
-		name: itemName,
-		totalPurchases: 0,
-	});
+	try {
+		const listCollectionRef = collection(db, listId);
+		return await addDoc(listCollectionRef, {
+			dateCreated: new Date(),
+			// NOTE: This is null because the item has just been created.
+			// We'll use updateItem to put a Date here when the item is purchased!
+			dateLastPurchased: null,
+			dateNextPurchased: getFutureDate(daysUntilNextPurchase),
+			name: itemName,
+			totalPurchases: 0,
+		});
+	} catch (error) {
+		throw error;
+	}
 }
 
 export async function updateItem() {
