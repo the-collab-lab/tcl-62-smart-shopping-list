@@ -1,47 +1,65 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ListItem } from '../components';
 
 export function List({ data }) {
-	const [searchField, setSearchField] = useState('');
-	const [searchMatch, setSearchMatch] = useState(data);
-
-	const handleUserSearch = (event) => {
-		const searchTerm = event.target.value;
-		setSearchField(searchTerm);
+	// state for input
+	const [input, setInput] = useState('');
+	const [searchData, setSearchData] = useState(data);
+	// const [isValid, setIsValid] = useState(true)
+	// const [searchLength, setSearchLength] = useState(10)
+	// Handle event
+	const handleInputChange = (e) => {
+		setInput(e.target.value);
 	};
 
-	const handleUserClear = () => {
-		setSearchField('');
-		setSearchMatch(data);
-		console.log(searchField);
+	const handleInputClear = () => {
+		setInput('');
 	};
 
+	useEffect(() => {
+		const searchRegex = new RegExp(input, 'i');
+		const filteredData = data.filter((item) => searchRegex.test(item.name));
+		setSearchData(filteredData);
+	}, [data, input]);
+
+	let isValid = false;
+	let searchLength = 1;
+	if (searchData.length > 0) {
+		isValid = true;
+		searchLength = data.length;
+	}
+	// console.log(data)
 	return (
 		<>
 			<p>
 				Hello from the <code>/list</code> page!
 			</p>
 
-			<input
-				name="searchInput"
-				type="text"
-				value={searchField}
-				onChange={handleUserSearch}
-			/>
-
-			<button onClick={handleUserClear} value={searchField}>
-				Clear Search Field
-			</button>
-			{/* <ul>
-				{data &&
-					data.map((item, index) => (
-					<ListItem key={index} name={item.name} />))}
-			</ul> */}
-			<ul>
-				{searchMatch.map((item, index) => (
-					<ListItem key={index} name={item.name} />
-				))}
-			</ul>
+			<label htmlFor="input">
+				<input
+					type="text"
+					id="input"
+					value={input}
+					onChange={handleInputChange}
+					maxLength={searchLength}
+				/>{' '}
+				{/* need to add onChange={} */}
+			</label>
+			{input.length > 0 ? (
+				<button onClick={handleInputClear} value={input}>
+					x
+				</button>
+			) : null}
+			{isValid ? (
+				<ul>
+					{searchData &&
+						searchData.map((item, index) => (
+							<ListItem key={index} name={item.name} />
+						))}
+				</ul>
+			) : (
+				<h2>no matches</h2>
+			)}
 		</>
 	);
 }
