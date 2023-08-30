@@ -39,6 +39,8 @@ export function List({ data }) {
 			</p>
 
 			<label htmlFor="input">
+				{' '}
+				Search for your item:
 				<input
 					type="text"
 					id="input"
