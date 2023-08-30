@@ -56,6 +56,7 @@ export function App() {
 								<Home
 									createNewToken={createNewToken}
 									setListToken={setListToken}
+									listToken={listToken}
 								/>
 							)
 						}
