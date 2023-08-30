@@ -25,20 +25,13 @@ export function List({ data }) {
 	useEffect(() => {
 		if (searchData.length > 0) {
 			setIsValid(true);
-			setSearchLength(data.length);
+			setSearchLength(50);
 		} else {
 			setIsValid(false);
-			setSearchLength(1);
+			setSearchLength(0);
 		}
 	}, [searchData, data]);
 
-	// let isValid = false;
-	// let searchLength = 1;
-	// if (searchData.length > 0) {
-	// 	isValid = true;
-	// 	searchLength = data.length;
-	// }
-	// console.log(data)
 	return (
 		<>
 			<p>
