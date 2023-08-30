@@ -5,8 +5,8 @@ export function List({ data }) {
 	// state for input
 	const [input, setInput] = useState('');
 	const [searchData, setSearchData] = useState(data);
-	// const [isValid, setIsValid] = useState(true)
-	// const [searchLength, setSearchLength] = useState(10)
+	const [isValid, setIsValid] = useState(false);
+	const [searchLength, setSearchLength] = useState(1);
 	// Handle event
 	const handleInputChange = (e) => {
 		setInput(e.target.value);
@@ -22,12 +22,22 @@ export function List({ data }) {
 		setSearchData(filteredData);
 	}, [data, input]);
 
-	let isValid = false;
-	let searchLength = 1;
-	if (searchData.length > 0) {
-		isValid = true;
-		searchLength = data.length;
-	}
+	useEffect(() => {
+		if (searchData.length > 0) {
+			setIsValid(true);
+			setSearchLength(data.length);
+		} else {
+			setIsValid(false);
+			setSearchLength(1);
+		}
+	}, [searchData, data]);
+
+	// let isValid = false;
+	// let searchLength = 1;
+	// if (searchData.length > 0) {
+	// 	isValid = true;
+	// 	searchLength = data.length;
+	// }
 	// console.log(data)
 	return (
 		<>
@@ -42,8 +52,7 @@ export function List({ data }) {
 					value={input}
 					onChange={handleInputChange}
 					maxLength={searchLength}
-				/>{' '}
-				{/* need to add onChange={} */}
+				/>
 			</label>
 			{input.length > 0 ? (
 				<button onClick={handleInputClear} value={input}>

@@ -29,9 +29,10 @@ export function AddItem({ listToken }) {
 			await addItem(listToken, itemData);
 			setStatus('This item has been added to your list!');
 			setItemName('');
-			setDays(7);
+			setDays(days);
 		} catch (error) {
 			setStatus("Oh no, this item wasn't added");
+			console.log(error);
 		}
 	};
 
