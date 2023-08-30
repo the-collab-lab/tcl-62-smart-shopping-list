@@ -5,7 +5,8 @@ export function List({ data }) {
 	// state for input
 	const [input, setInput] = useState('');
 	const [searchData, setSearchData] = useState(data);
-
+	const [isValid, setIsValid] = useState(false);
+	const [searchLength, setSearchLength] = useState(1);
 	// Handle event
 	const handleInputChange = (e) => {
 		setInput(e.target.value);
@@ -21,6 +22,16 @@ export function List({ data }) {
 		setSearchData(filteredData);
 	}, [data, input]);
 
+	useEffect(() => {
+		if (searchData.length > 0) {
+			setIsValid(true);
+			setSearchLength(50);
+		} else {
+			setIsValid(false);
+			setSearchLength(0);
+		}
+	}, [searchData, data]);
+
 	return (
 		<>
 			<p>
@@ -33,20 +44,24 @@ export function List({ data }) {
 					id="input"
 					value={input}
 					onChange={handleInputChange}
-				/>{' '}
-				{/* need to add onChange={} */}
+					maxLength={searchLength}
+				/>
 			</label>
 			{input.length > 0 ? (
 				<button onClick={handleInputClear} value={input}>
 					x
 				</button>
 			) : null}
-			<ul>
-				{searchData &&
-					searchData.map((item, index) => (
-						<ListItem key={index} name={item.name} />
-					))}
-			</ul>
+			{isValid ? (
+				<ul>
+					{searchData &&
+						searchData.map((item, index) => (
+							<ListItem key={index} name={item.name} />
+						))}
+				</ul>
+			) : (
+				<h2>no matches</h2>
+			)}
 		</>
 	);
 }
