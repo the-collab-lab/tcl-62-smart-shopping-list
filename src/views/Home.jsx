@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 
 // LOCAL IMPORTS
 import './Home.css';
-import { getItems } from '../api/firebase';
+import { getExistingList } from '../api/firebase';
 
 export function Home({ createNewToken, setListToken, listToken }) {
 	let navigate = useNavigate();
@@ -30,7 +30,7 @@ export function Home({ createNewToken, setListToken, listToken }) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const tokenExists = await getItems(existingToken);
+			const tokenExists = await getExistingList(existingToken);
 			if (tokenExists) {
 				setListToken(existingToken);
 				navigate('/list');
@@ -38,6 +38,7 @@ export function Home({ createNewToken, setListToken, listToken }) {
 				setStatus(false);
 			}
 			console.log(`existingToken: ${existingToken}`);
+			// Clear the existingToken after the submission
 			setExistingToken('');
 			console.log(`listToken on submit: ${listToken}`);
 		} catch (error) {
@@ -52,15 +53,16 @@ export function Home({ createNewToken, setListToken, listToken }) {
 			</p>
 			<form onSubmit={handleSubmit}>
 				<label htmlFor="existingToken">
-					Which list would you like to join?
-					<br />
-					<input
-						type="text"
-						id="existingToken"
-						onChange={handleTokenChange}
-						value={existingToken}
-					/>
+					Which list would you like to join?{' '}
 				</label>
+				<br />
+				<input
+					type="text"
+					id="existingToken"
+					onChange={handleTokenChange}
+					value={existingToken}
+					placeholder="Enter name of existing list"
+				/>
 				<button>Submit</button>
 			</form>
 			{status && <p>{status}</p>}

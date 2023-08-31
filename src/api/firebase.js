@@ -83,14 +83,18 @@ export async function deleteItem() {
 	 */
 }
 
-export async function getItems(collectionName) {
+export async function getExistingList(listId) {
+	if (!listId) {
+		throw new Error('List ID is missing or empty.');
+	}
+
 	try {
-		const collectionRef = collection(db, collectionName);
+		const collectionRef = collection(db, listId);
 		const snapshot = await getDocs(collectionRef);
-		if (snapshot.empty) {
-			return false;
+		if (!snapshot.empty) {
+			return snapshot;
 		} else {
-			return true;
+			return false;
 		}
 	} catch (error) {
 		throw error;
