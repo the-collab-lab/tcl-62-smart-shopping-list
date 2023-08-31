@@ -1,6 +1,5 @@
 // LIBRARY IMPORTS
 import { useNavigate } from 'react-router-dom';
-import { generateToken } from '@the-collab-lab/shopping-list-utils';
 import React, { useState } from 'react';
 
 // LOCAL IMPORTS
