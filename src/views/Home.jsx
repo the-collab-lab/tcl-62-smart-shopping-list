@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import './Home.css';
 import { getExistingList } from '../api/firebase';
 
-export function Home({ createNewToken, setListToken, listToken }) {
+export function Home({ createNewToken, setListToken }) {
 	let navigate = useNavigate();
 
 	// STATES
@@ -35,12 +35,10 @@ export function Home({ createNewToken, setListToken, listToken }) {
 				setListToken(existingToken);
 				navigate('/list');
 			} else {
-				setStatus(false);
+				setStatus("That list doesn't exist! Create a new list to get started.");
 			}
-			console.log(`existingToken: ${existingToken}`);
 			// Clear the existingToken after the submission
 			setExistingToken('');
-			console.log(`listToken on submit: ${listToken}`);
 		} catch (error) {
 			throw error;
 		}
