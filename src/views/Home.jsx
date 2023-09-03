@@ -28,18 +28,13 @@ export function Home({ createNewToken, setListToken }) {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		try {
-			const tokenExists = await getExistingList(existingToken);
-			if (tokenExists) {
-				setListToken(existingToken);
-				navigate('/list');
-			} else {
-				setStatus("That list doesn't exist! Create a new list to get started.");
-			}
-			// Clear the existingToken after the submission
-			setExistingToken('');
-		} catch (error) {
-			throw error;
+
+		const tokenExists = await getExistingList(existingToken);
+		if (tokenExists) {
+			setListToken(existingToken);
+			navigate('/list');
+		} else {
+			setStatus("That list doesn't exist! Create a new list to get started.");
 		}
 	};
 
@@ -50,7 +45,7 @@ export function Home({ createNewToken, setListToken }) {
 			</p>
 			<form onSubmit={handleSubmit}>
 				<label htmlFor="existingToken">
-					Which list would you like to join?{' '}
+					Which list would you like to join?
 				</label>
 				<br />
 				<input
