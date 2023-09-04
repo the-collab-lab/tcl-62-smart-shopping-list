@@ -11,13 +11,14 @@ export function List({ data }) {
 	const handleInputChange = (e) => {
 		setInput(e.target.value);
 	};
-
 	const handleInputClear = () => {
 		setInput('');
 	};
-
 	useEffect(() => {
-		const searchRegex = new RegExp(input, 'i');
+		const searchRegex = new RegExp(
+			input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+			'i',
+		);
 		const filteredData = data.filter((item) => searchRegex.test(item.name));
 		setSearchData(filteredData);
 	}, [data, input]);
@@ -30,35 +31,28 @@ export function List({ data }) {
 			setIsValid(false);
 			setSearchLength(0);
 		}
-	}, [searchData, data]);
+	}, [searchData, data.length]);
 
 	return (
 		<>
 			<p>
 				Hello from the <code>/list</code> page!
 			</p>
-
-			<label htmlFor="input">
-				{' '}
+			<form>
 				Search for your item:
 				<input
 					type="text"
-					id="input"
 					value={input}
 					onChange={handleInputChange}
 					maxLength={searchLength}
 				/>
-			</label>
-			{input.length > 0 ? (
-				<button onClick={handleInputClear} value={input}>
-					x
-				</button>
-			) : null}
+				{input.length > 0 && <button onClick={handleInputClear}>x</button>}
+			</form>
 			{isValid ? (
 				<ul>
 					{searchData &&
-						searchData.map((item, index) => (
-							<ListItem key={index} name={item.name} />
+						searchData.map((item) => (
+							<ListItem key={item.id} name={item.name} />
 						))}
 				</ul>
 			) : (
