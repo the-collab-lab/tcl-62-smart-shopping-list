@@ -97,3 +97,17 @@ export async function deleteItem() {
 	 * this function must accept!
 	 */
 }
+
+export async function getExistingList(listId) {
+	if (!listId) {
+		throw new Error('List ID is missing or empty.');
+	}
+
+	const collectionRef = collection(db, listId);
+	const snapshot = await getDocs(collectionRef);
+	if (!snapshot.empty) {
+		return snapshot;
+	} else {
+		return false;
+	}
+}
