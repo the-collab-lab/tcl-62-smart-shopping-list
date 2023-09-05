@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ListItem } from '../components';
 
-export function List({ data }) {
+export function List({ data, listToken }) {
 	// state for input
 	const [input, setInput] = useState('');
 	const [searchData, setSearchData] = useState(data);
@@ -52,7 +52,7 @@ export function List({ data }) {
 				<ul>
 					{searchData &&
 						searchData.map((item) => (
-							<ListItem key={item.id} name={item.name} />
+							<ListItem key={item.id} name={item.name} listToken={listToken} />
 						))}
 				</ul>
 			) : (
