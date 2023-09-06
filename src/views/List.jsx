@@ -52,8 +52,14 @@ export function List({ data, listToken }) {
 				<ul>
 					{searchData &&
 						searchData.map((item) => (
-							<ListItem key={item.id} name={item.name} listToken={listToken} />
+							<ListItem
+								key={item.id}
+								name={item.name}
+								dateLastPurchased={item.dateLastPurchased}
+								listToken={listToken}
+							/>
 						))}
+					{/* <button onClick={console.log({item})}>c</button> */}
 				</ul>
 			) : (
 				<h2>no matches</h2>
