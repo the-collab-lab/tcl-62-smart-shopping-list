@@ -13,36 +13,63 @@ export function ListItem({ name, listToken, dateLastPurchased }) {
 	const handleCheck = async (e) => {
 		const currentIsChecked = !isChecked;
 		setIsChecked(currentIsChecked);
+		const twentyFourHours = 24 * 60 * 60 * 1000;
+		const uncheckTime = new Date().getTime() + twentyFourHours;
+		// setIsChecked(!isChecked);
 		await updateItem(listToken, e.target.name);
-		localStorage.setItem(
-			`${name}=isChecked`,
-			currentIsChecked ? 'true' : 'false',
-		);
+		localStorage.setItem(`${name}=uncheckTime`, uncheckTime.toString());
 	};
 
 	// STORE CHECKBOX STATE IN LOCALSTORAGE
 	useEffect(() => {
-		const storedCheck = localStorage.getItem(`${name}=isChecked`);
-		if (storedCheck !== null) {
-			setIsChecked(storedCheck === 'true');
+		const storedUncheckTime = localStorage.getItem(`${name}=uncheckTime`);
+		const currentTime = new Date().getTime();
+
+		if (storedUncheckTime && currentTime < Number(storedUncheckTime)) {
+			setIsChecked(true);
+			const remainingTime = Number(storedUncheckTime) - currentTime;
+			setTimeout(() => setIsChecked(false), remainingTime);
+		} else {
+			// CHECK FIRESTORE FOR ITEMS NOT IN LOCAL STORAGE
+			const lastPurchasedTime = new Date(dateLastPurchased).getTime();
+			const timeDifference = currentTime - lastPurchasedTime;
+			const twentyFourHours = 24 * 60 * 60 * 1000;
+
+			if (timeDifference < twentyFourHours) {
+				setIsChecked(true);
+				const timeLeft = twentyFourHours - timeDifference;
+				setTimeout(() => setIsChecked(false), timeLeft);
+			} else {
+				setIsChecked(false);
+			}
 		}
-	}, [name]);
+	}, [name, dateLastPurchased]);
+
+	// useEffect(() => {
+	// 	const currentTime = new Date().getTime();
+	// 	const lastPurchasedTime = new Date(dateLastPurchased).getTime();
+	// 	const timeDifference = currentTime - lastPurchasedTime;
+	// 	const twentyFourHours = 24 * 60 * 60 * 1000;
+	// 	if (timeDifference < twentyFourHours) {
+	// 		setIsChecked(false)
+	// 	}
+	// }, [dateLastPurchased])
 
 	// SET INTERVAL FOR UNCHECKING BOX AFTER X TIME
-	useEffect(() => {
-		let unCheckTimer;
-		if (isChecked) {
-			unCheckTimer = setInterval(() => {
-				setIsChecked(false);
-				localStorage.setItem(`${name}=isChecked`, 'false');
-			}, 2000);
-		}
-		return () => {
-			if (unCheckTimer) {
-				clearTimeout(unCheckTimer);
-			}
-		};
-	}, [isChecked, name]);
+	// useEffect(() => {
+	// 	let unCheckTimer;
+	// 	if (isChecked) {
+	// 		unCheckTimer = setInterval(() => {
+	// 			setIsChecked(false);
+	// 			localStorage.setItem(`${name}=isChecked`, 'false');
+	// 		}, 2000);
+	// 	}
+	// 	return () => {
+	// 		if (unCheckTimer) {
+	// 			clearTimeout(unCheckTimer);
+	// 		}
+	// 	};
+	// }, [isChecked, name]);
 
 	return (
 		<li className="ListItem">
