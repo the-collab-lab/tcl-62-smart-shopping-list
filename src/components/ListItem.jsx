@@ -20,6 +20,7 @@ export function ListItem({ name, listToken, dateLastPurchased }) {
 		);
 	};
 
+	// STORE CHECKBOX STATE IN LOCALSTORAGE
 	useEffect(() => {
 		const storedCheck = localStorage.getItem(`${name}=isChecked`);
 		if (storedCheck !== null) {
@@ -27,6 +28,7 @@ export function ListItem({ name, listToken, dateLastPurchased }) {
 		}
 	}, [name]);
 
+	// SET INTERVAL FOR UNCHECKING BOX AFTER X TIME
 	useEffect(() => {
 		let unCheckTimer;
 		if (isChecked) {

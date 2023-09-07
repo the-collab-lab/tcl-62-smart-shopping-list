@@ -59,7 +59,6 @@ export function List({ data, listToken }) {
 								listToken={listToken}
 							/>
 						))}
-					{/* <button onClick={console.log({item})}>c</button> */}
 				</ul>
 			) : (
 				<h2>no matches</h2>
