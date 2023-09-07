@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import './ListItem.css';
 import { updateItem } from '../api/firebase.js';
 
-export function ListItem({ name, listToken, dateLastPurchased }) {
+export function ListItem({ name, listToken, dateLastPurchased, itemId }) {
 	// SET STATES
 	const [isChecked, setIsChecked] = useState(false);
 
@@ -16,7 +16,7 @@ export function ListItem({ name, listToken, dateLastPurchased }) {
 		const twentyFourHours = 24 * 60 * 60 * 1000;
 		const uncheckTime = new Date().getTime() + twentyFourHours;
 		// setIsChecked(!isChecked);
-		await updateItem(listToken, e.target.name);
+		await updateItem(listToken, itemId);
 		localStorage.setItem(`${name}=uncheckTime`, uncheckTime.toString());
 	};
 

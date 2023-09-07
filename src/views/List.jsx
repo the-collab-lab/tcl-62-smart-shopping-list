@@ -54,6 +54,7 @@ export function List({ data, listToken }) {
 						searchData.map((item) => (
 							<ListItem
 								key={item.id}
+								itemId={item.id}
 								name={item.name}
 								dateLastPurchased={item.dateLastPurchased}
 								listToken={listToken}

@@ -77,13 +77,13 @@ export async function addItem(listId, { itemName, daysUntilNextPurchase }) {
 	}
 }
 
-export async function updateItem(list, item) {
-	const collectionRef = collection(db, list);
-	const queryRef = query(collectionRef, where('name', '==', item));
-	const querySnapshot = await getDocs(queryRef);
-	const documentSnapshot = querySnapshot.docs[0];
-	const documentId = documentSnapshot.id;
-	const docRef = doc(db, list, documentId);
+export async function updateItem(list, itemId) {
+	// const collectionRef = collection(db, list);
+	// const queryRef = query(collectionRef, where('name', '==', item));
+	// const querySnapshot = await getDocs(queryRef);
+	// const documentSnapshot = querySnapshot.docs[0];
+	// const documentId = documentSnapshot.id;
+	const docRef = doc(db, list, itemId);
 	return await updateDoc(docRef, {
 		dateLastPurchased: new Date(),
 		totalPurchases: increment(1),
