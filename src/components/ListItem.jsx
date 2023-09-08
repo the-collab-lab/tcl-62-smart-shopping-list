@@ -11,17 +11,28 @@ export function ListItem({ name, listToken, dateLastPurchased, itemId }) {
 
 	// EVENT HANDLER
 	const handleCheck = async (e) => {
-		const currentIsChecked = !isChecked;
-		setIsChecked(currentIsChecked);
-		const twentyFourHours = 24 * 60 * 60 * 1000;
-		const uncheckTime = new Date().getTime() + twentyFourHours;
-		// setIsChecked(!isChecked);
-		await updateItem(listToken, itemId);
-		localStorage.setItem(`${name}=uncheckTime`, uncheckTime.toString());
+		// const currentIsChecked = !isChecked;
+		// setIsChecked(currentIsChecked);
+		setIsChecked(!isChecked);
+		//NOTE: since state setting is async, if something needs to happen after the state is set is should happen in a useEffect hook with the state set as a dependency, I moved the following lines down to a new useEffect
+		// const twentyFourHours = 24 * 60 * 60 * 1000;
+		// const uncheckTime = new Date().getTime() + twentyFourHours;
+		// await updateItem(listToken, itemId);
+		// localStorage.setItem(`${name}=uncheckTime`, uncheckTime.toString());
 	};
 
-	// STORE CHECKBOX STATE IN LOCALSTORAGE
 	useEffect(() => {
+		if (isChecked) {
+			//the following lines of code are copied and pasted from the above handleClick function
+			const twentyFourHours = 24 * 60 * 60 * 1000;
+			const uncheckTime = new Date().getTime() + twentyFourHours;
+			localStorage.setItem(`${name}=uncheckTime`, uncheckTime.toString());
+			updateItem(listToken, itemId);
+		}
+	}, [isChecked, listToken, itemId, name]);
+
+	useEffect(() => {
+		// STORE CHECKBOX STATE IN LOCALSTORAGE
 		const storedUncheckTime = localStorage.getItem(`${name}=uncheckTime`);
 		const currentTime = new Date().getTime();
 
