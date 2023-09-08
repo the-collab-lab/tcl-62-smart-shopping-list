@@ -1,5 +1,5 @@
 //LIBRARY IMPORTS
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // LOCAL IMPORTS
 import './ListItem.css';
@@ -8,26 +8,24 @@ import { updateItem } from '../api/firebase.js';
 export function ListItem({ name, listToken, dateLastPurchased, itemId }) {
 	// SET STATES
 	const [isChecked, setIsChecked] = useState(false);
+	const mounted = useRef(false);
 
 	// EVENT HANDLER
-	const handleCheck = async (e) => {
-		// const currentIsChecked = !isChecked;
-		// setIsChecked(currentIsChecked);
+	const handleCheck = () => {
 		setIsChecked(!isChecked);
-		//NOTE: since state setting is async, if something needs to happen after the state is set it should happen in a useEffect hook with the state set as a dependency, I moved the following lines down to a new useEffect
-		// const twentyFourHours = 24 * 60 * 60 * 1000;
-		// const uncheckTime = new Date().getTime() + twentyFourHours;
-		// await updateItem(listToken, itemId);
-		// localStorage.setItem(`${name}=uncheckTime`, uncheckTime.toString());
 	};
 
 	useEffect(() => {
-		if (isChecked) {
-			//the following lines of code are copied and pasted from the above handleClick function
-			const twentyFourHours = 24 * 60 * 60 * 1000;
-			const uncheckTime = new Date().getTime() + twentyFourHours;
-			localStorage.setItem(`${name}=uncheckTime`, uncheckTime.toString());
-			updateItem(listToken, itemId);
+		if (mounted.current) {
+			if (isChecked) {
+				//the following lines of code are copied and pasted from the above handleClick function
+				const twentyFourHours = 24 * 60 * 60 * 1000;
+				const uncheckTime = new Date().getTime() + twentyFourHours;
+				localStorage.setItem(`${name}=uncheckTime`, uncheckTime.toString());
+				updateItem(listToken, itemId);
+			}
+		} else {
+			mounted.current = true;
 		}
 	}, [isChecked, listToken, itemId, name]);
 
@@ -39,7 +37,9 @@ export function ListItem({ name, listToken, dateLastPurchased, itemId }) {
 		if (storedUncheckTime && currentTime < Number(storedUncheckTime)) {
 			setIsChecked(true);
 			const remainingTime = Number(storedUncheckTime) - currentTime;
-			setTimeout(() => setIsChecked(false), remainingTime);
+			// setTimeout(() => setIsChecked(false), remainingTime);
+			//FOR TESTING 15 SECONDS
+			setTimeout(() => setIsChecked(false), 15000);
 		} else {
 			// CHECK FIRESTORE FOR ITEMS NOT IN LOCAL STORAGE
 			const lastPurchasedTime = new Date(dateLastPurchased).getTime();
@@ -49,7 +49,9 @@ export function ListItem({ name, listToken, dateLastPurchased, itemId }) {
 			if (timeDifference < twentyFourHours) {
 				setIsChecked(true);
 				const timeLeft = twentyFourHours - timeDifference;
-				setTimeout(() => setIsChecked(false), timeLeft);
+				// setTimeout(() => setIsChecked(false), timeLeft);
+				//FOR TESTING 15 SECONDS
+				setTimeout(() => setIsChecked(false), 15000);
 			} else {
 				setIsChecked(false);
 			}
