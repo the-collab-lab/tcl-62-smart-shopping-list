@@ -14,7 +14,7 @@ export function ListItem({ name, listToken, dateLastPurchased, itemId }) {
 		// const currentIsChecked = !isChecked;
 		// setIsChecked(currentIsChecked);
 		setIsChecked(!isChecked);
-		//NOTE: since state setting is async, if something needs to happen after the state is set is should happen in a useEffect hook with the state set as a dependency, I moved the following lines down to a new useEffect
+		//NOTE: since state setting is async, if something needs to happen after the state is set it should happen in a useEffect hook with the state set as a dependency, I moved the following lines down to a new useEffect
 		// const twentyFourHours = 24 * 60 * 60 * 1000;
 		// const uncheckTime = new Date().getTime() + twentyFourHours;
 		// await updateItem(listToken, itemId);
@@ -32,7 +32,7 @@ export function ListItem({ name, listToken, dateLastPurchased, itemId }) {
 	}, [isChecked, listToken, itemId, name]);
 
 	useEffect(() => {
-		// STORE CHECKBOX STATE IN LOCALSTORAGE
+		// GET CHECKBOX STATE FROM LOCAL STORAGE
 		const storedUncheckTime = localStorage.getItem(`${name}=uncheckTime`);
 		const currentTime = new Date().getTime();
 
