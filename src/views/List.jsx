@@ -8,7 +8,7 @@ export function List({ data }) {
 	const [searchData, setSearchData] = useState(data);
 	const [isValid, setIsValid] = useState(false);
 	const [searchLength, setSearchLength] = useState(1);
-	let navigate = useNavigate();
+	const navigate = useNavigate();
 
 	// Handle events
 	const handleInputChange = (e) => {
@@ -39,8 +39,6 @@ export function List({ data }) {
 			setSearchLength(0);
 		}
 	}, [searchData, data.length]);
-
-	console.log(data);
 
 	return (
 		<>
