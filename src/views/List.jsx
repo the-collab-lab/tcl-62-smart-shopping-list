@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { ListItem } from '../components';
 import { useNavigate } from 'react-router-dom';
 
-export function List({ data }) {
-	// State for input
+export function List({ data, listToken }) {
+	// state for input
 	const [input, setInput] = useState('');
 	const [searchData, setSearchData] = useState(data);
 	const [isValid, setIsValid] = useState(false);
@@ -65,7 +65,7 @@ export function List({ data }) {
 						<ul>
 							{searchData &&
 								searchData.map((item) => (
-									<ListItem key={item.id} name={item.name} />
+									<ListItem key={item.id} name={item.name} itemId={item.id} dateLastPurchased={item.dateLastPurchased} listToken={listToken}/>
 								))}
 						</ul>
 					) : (
