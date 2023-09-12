@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ListItem } from '../components';
+import { useNavigate } from 'react-router-dom';
 
 export function List({ data, listToken }) {
 	// state for input
@@ -7,13 +8,19 @@ export function List({ data, listToken }) {
 	const [searchData, setSearchData] = useState(data);
 	const [isValid, setIsValid] = useState(false);
 	const [searchLength, setSearchLength] = useState(1);
-	// Handle event
+	const navigate = useNavigate();
+
+	// Handle events
 	const handleInputChange = (e) => {
 		setInput(e.target.value);
 	};
 	const handleInputClear = () => {
 		setInput('');
 	};
+	const handleClick = () => {
+		navigate('/add-item');
+	};
+
 	useEffect(() => {
 		const searchRegex = new RegExp(
 			input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
@@ -35,34 +42,36 @@ export function List({ data, listToken }) {
 
 	return (
 		<>
-			<p>
-				Hello from the <code>/list</code> page!
-			</p>
-			<form>
-				Search for your item:
-				<input
-					type="text"
-					value={input}
-					onChange={handleInputChange}
-					maxLength={searchLength}
-				/>
-				{input.length > 0 && <button onClick={handleInputClear}>x</button>}
-			</form>
-			{isValid ? (
-				<ul>
-					{searchData &&
-						searchData.map((item) => (
-							<ListItem
-								key={item.id}
-								itemId={item.id}
-								name={item.name}
-								dateLastPurchased={item.dateLastPurchased}
-								listToken={listToken}
-							/>
-						))}
-				</ul>
+			{data && data.length === 0 ? (
+				<div>
+					<h2>Your list is empty. Get started by adding an item.</h2>
+					<p>To add an item to your list, tap the Add Item button below.</p>
+
+					<button onClick={handleClick}> + Add Item </button>
+				</div>
 			) : (
-				<h2>no matches</h2>
+				<div>
+					<form>
+						Search for your item:
+						<input
+							type="text"
+							value={input}
+							onChange={handleInputChange}
+							maxLength={searchLength}
+						/>
+						{input.length > 0 && <button onClick={handleInputClear}>x</button>}
+					</form>
+					{isValid ? (
+						<ul>
+							{searchData &&
+								searchData.map((item) => (
+									<ListItem key={item.id} name={item.name} itemId={item.id} dateLastPurchased={item.dateLastPurchased} listToken={listToken}/>
+								))}
+						</ul>
+					) : (
+						<h2>no matches</h2>
+					)}
+				</div>
 			)}
 		</>
 	);
