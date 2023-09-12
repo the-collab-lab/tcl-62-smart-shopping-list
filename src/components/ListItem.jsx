@@ -35,26 +35,45 @@ export function ListItem({
 		return daysSinceLastPurchase;
 	};
 
+	// Helper fxn to calculate days between last and next purchased date
+	const getDaysBetweenLastAndNextPurchase = (
+		dateLastPurchased,
+		dateCreated,
+	) => {
+		const dateLastPurchasedJS = dateLastPurchased?.toDate(); // Convert Firestore's Timestamp object to Javascript Date object
+		const dateNextPurchasedJS = dateNextPurchased.toDate();
+		const dateLastPurchasedSeconds = dateLastPurchasedJS?.getTime() / 1000;
+		const dateNextPurchasedSeconds = dateNextPurchasedJS.getTime() / 1000;
+
+		const daysBetweenLastAndNextPurchased = Math.round(
+			Math.abs(dateNextPurchasedSeconds - dateLastPurchasedSeconds) /
+				(60 * 60 * 24),
+		);
+
+		return daysBetweenLastAndNextPurchased;
+	};
+
 	// EVENT HANDLER
 	const handleCheck = () => {
 		if (!isChecked) {
-			const daysBetweenLastAndNextPurchased = Math.round(
-				(Math.abs(dateNextPurchased.seconds - dateLastPurchased?.seconds) /
-					60) *
-					60 *
-					24,
-			);
-
-			const previousEstimate =
-				dateLastPurchased === null ? 14 : daysBetweenLastAndNextPurchased;
-
 			const daysSinceLastTransaction = getDaysSinceLastPurchase(
 				dateLastPurchased,
 				dateCreated,
 			);
-			// console.log('date next:', dateNextPurchased);
-			// console.log('date last:', dateLastPurchased);
+
+			const daysBetweenLastAndNextPurchase = getDaysBetweenLastAndNextPurchase(
+				dateLastPurchased,
+				dateCreated,
+			);
+
+			const previousEstimate =
+				dateLastPurchased === null ? 14 : daysBetweenLastAndNextPurchase;
+
 			console.log('days since last transaction:', daysSinceLastTransaction);
+			console.log(
+				'days between last and next purchased:',
+				daysBetweenLastAndNextPurchase,
+			);
 
 			// let estimatedDays = calculateEstimate( previousEstimate, daysSinceLastTransaction, totalPurchases);
 
@@ -63,8 +82,6 @@ export function ListItem({
 		}
 		setIsChecked((prevState) => !prevState);
 	};
-
-	// previousEstimate == Diff between dateNextPurchased and dateLastPurchased (if dateLast not null)
 
 	return (
 		<li className="ListItem">
