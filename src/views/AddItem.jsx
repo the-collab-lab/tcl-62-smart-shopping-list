@@ -4,11 +4,15 @@ import React, { useState } from 'react';
 //LOCAL IMPORTS
 import { addItem } from '../api/firebase.js';
 
-export function AddItem({ listToken }) {
+export function AddItem({ listToken, data, name }) {
 	// SET STATES
 	const [itemName, setItemName] = useState('');
 	const [days, setDays] = useState(7);
 	const [status, setStatus] = useState(null);
+	const names = data.map((item) => item.name);
+	const trimmedItem = itemName.trim().toLowerCase().replaceAll(' ', '');
+	const checkForDuplicates = names.includes(trimmedItem);
+	
 
 	// HANDLE EVENTS
 	const handleItemNameChange = (e) => {
@@ -20,6 +24,22 @@ export function AddItem({ listToken }) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
+		if (!itemName || itemName.trim() === '') {
+			setStatus(
+				`You've submitted an empty field. Please enter a valid item name to add to list`,
+			);
+			setItemName('');
+			return;
+		}
+		if (checkForDuplicates) {
+			setStatus(`You have already added this item`);
+			setItemName('');
+			return;
+		}
+
+		console.log(checkForDuplicates);
+		console.log(data);
+		console.log(names);
 		let itemData = {
 			itemName: itemName,
 			daysUntilNextPurchase: days,
@@ -45,7 +65,7 @@ export function AddItem({ listToken }) {
 						id="itemName"
 						onChange={handleItemNameChange}
 						value={itemName}
-						required
+						// required
 					/>
 				</label>
 				<br />
