@@ -9,10 +9,32 @@ export function AddItem({ listToken, data, name }) {
 	const [itemName, setItemName] = useState('');
 	const [days, setDays] = useState(7);
 	const [status, setStatus] = useState(null);
-	const names = data.map((item) => item.name);
-	const trimmedItem = itemName.trim().toLowerCase().replaceAll(' ', '');
-	const checkForDuplicates = names.includes(trimmedItem);
-	
+
+	// const removeCharacters = (itemName) =>{
+	// 	const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+	// 	const acceptedCharacters = alphabet+alphabet.toUpperCase()+'0123456789'
+	// 	let acceptableString = ''
+	// 	for (let i=0; i<itemName.length; i++){
+	// 		const goodChar = itemName[i]
+	// 		if( acceptedCharacters.includes(goodChar)){
+	// 			acceptableString += goodChar
+	// 		}
+	// 	}
+	// 	return acceptableString.toLowerCase()
+	// }
+
+	// const trimmedItem = removeCharacters(itemName.trim().toLowerCase().replaceAll(' ', ''))
+	const iLoveRegex = /[^a-zA-Z0-9\s]/g;
+	const cleanedUpItems = (userInput) => {
+		return userInput
+			.trim()
+			.toLowerCase()
+			.replace(iLoveRegex, '')
+			.replaceAll(' ', '');
+	};
+	const names = data.map((item) => cleanedUpItems(item.name));
+	const trimmedItem = cleanedUpItems(itemName);
+	const checkForDuplicates = names.includes(trimmedItem || itemName);
 
 	// HANDLE EVENTS
 	const handleItemNameChange = (e) => {
@@ -24,7 +46,7 @@ export function AddItem({ listToken, data, name }) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		if (!itemName || itemName.trim() === '') {
+		if (!itemName || trimmedItem === '') {
 			setStatus(
 				`You've submitted an empty field. Please enter a valid item name to add to list`,
 			);
@@ -37,9 +59,6 @@ export function AddItem({ listToken, data, name }) {
 			return;
 		}
 
-		console.log(checkForDuplicates);
-		console.log(data);
-		console.log(names);
 		let itemData = {
 			itemName: itemName,
 			daysUntilNextPurchase: days,
