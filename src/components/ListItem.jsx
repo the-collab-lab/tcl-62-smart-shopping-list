@@ -21,18 +21,18 @@ export function ListItem({
 		now - dateLastPurchased?.seconds < 60 * 60 * 24,
 	);
 
-	// Helper function to calculate days since last purchase
-	const getDaysSinceLastPurchase = (dateLastPurchased, dateCreated) => {
+	// HELPER FUNCTIONS
+	const getDaysSinceLastTransaction = (dateLastPurchased, dateCreated) => {
 		const oneDay = 24 * 60 * 60; // hours * minutes * seconds
-		const lastPurchasedDate = dateLastPurchased
+		const lastTransactionDate = dateLastPurchased
 			? dateLastPurchased.seconds
 			: dateCreated.seconds; // Use the last purchased date if available, else use the created date
 
-		const daysSinceLastPurchase = Math.round(
-			Math.abs((now - lastPurchasedDate) / oneDay),
+		const daysSinceLastTransaction = Math.round(
+			Math.abs((now - lastTransactionDate) / oneDay),
 		);
 
-		return daysSinceLastPurchase;
+		return daysSinceLastTransaction;
 	};
 
 	// Helper fxn to calculate days between last and next purchased date
@@ -40,45 +40,43 @@ export function ListItem({
 		dateLastPurchased,
 		dateCreated,
 	) => {
-		const dateLastPurchasedJS = dateLastPurchased?.toDate(); // Convert Firestore's Timestamp object to Javascript Date object
-		const dateNextPurchasedJS = dateNextPurchased.toDate();
-		const dateLastPurchasedSeconds = dateLastPurchasedJS?.getTime() / 1000;
-		const dateNextPurchasedSeconds = dateNextPurchasedJS.getTime() / 1000;
+		const dateLastPurchasedSeconds = dateLastPurchased
+			? dateLastPurchased.seconds
+			: dateCreated.seconds;
+		const dateNextPurchasedSeconds = dateNextPurchased.seconds;
 
 		const daysBetweenLastAndNextPurchased = Math.round(
-			Math.abs(dateNextPurchasedSeconds - dateLastPurchasedSeconds) /
-				(60 * 60 * 24),
+			(dateNextPurchasedSeconds - dateLastPurchasedSeconds) / (60 * 60 * 24),
 		);
 
 		return daysBetweenLastAndNextPurchased;
 	};
 
+	const getNewNextPurchaseDate = (estimatedDays) => {
+		const estimatedDaysInMilliseconds = estimatedDays * 1000 * 60 * 60 * 24;
+		const newDateMilliseconds = estimatedDaysInMilliseconds + Date.now();
+		return new Date(newDateMilliseconds);
+	};
+
 	// EVENT HANDLER
 	const handleCheck = () => {
 		if (!isChecked) {
-			const daysSinceLastTransaction = getDaysSinceLastPurchase(
+			const daysSinceLastTransaction = getDaysSinceLastTransaction(
 				dateLastPurchased,
 				dateCreated,
 			);
-
-			const daysBetweenLastAndNextPurchase = getDaysBetweenLastAndNextPurchase(
+			const previousEstimate = getDaysBetweenLastAndNextPurchase(
 				dateLastPurchased,
 				dateCreated,
 			);
-
-			const previousEstimate =
-				dateLastPurchased === null ? 14 : daysBetweenLastAndNextPurchase;
-
-			console.log('days since last transaction:', daysSinceLastTransaction);
-			console.log(
-				'days between last and next purchased:',
-				daysBetweenLastAndNextPurchase,
+			const estimatedDays = calculateEstimate(
+				previousEstimate,
+				daysSinceLastTransaction,
+				totalPurchases,
 			);
+			const newNextPurchaseDate = getNewNextPurchaseDate(estimatedDays);
 
-			// let estimatedDays = calculateEstimate( previousEstimate, daysSinceLastTransaction, totalPurchases);
-
-			// calculate date from estimated number of days and pass to updateItem
-			updateItem(listToken, itemId); // NEED TO PASS DATENEXTPURCHASED AS DATE, CALCULATED USING CALCULATEESTIMATE
+			updateItem(listToken, itemId, newNextPurchaseDate);
 		}
 		setIsChecked((prevState) => !prevState);
 	};
