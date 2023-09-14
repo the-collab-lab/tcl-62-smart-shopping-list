@@ -10,12 +10,12 @@ export function AddItem({ listToken, data, name }) {
 	const [days, setDays] = useState(7);
 	const [status, setStatus] = useState(null);
 
-	// const removeCharacters = (itemName) =>{
+	// const removeCharacters = (userInput) =>{
 	// 	const alphabet = 'abcdefghijklmnopqrstuvwxyz'
 	// 	const acceptedCharacters = alphabet+alphabet.toUpperCase()+'0123456789'
 	// 	let acceptableString = ''
 	// 	for (let i=0; i<itemName.length; i++){
-	// 		const goodChar = itemName[i]
+	// 		const goodChar = userInput[i]
 	// 		if( acceptedCharacters.includes(goodChar)){
 	// 			acceptableString += goodChar
 	// 		}
@@ -23,14 +23,10 @@ export function AddItem({ listToken, data, name }) {
 	// 	return acceptableString.toLowerCase()
 	// }
 
-	// const trimmedItem = removeCharacters(itemName.trim().toLowerCase().replaceAll(' ', ''))
-	const iLoveRegex = /[^a-zA-Z0-9\s]/g;
+	// const trimmedItem = removeCharacters(userInput)
+	const iLoveRegex = /[^a-zA-Z0-9]/g;
 	const cleanedUpItems = (userInput) => {
-		return userInput
-			.trim()
-			.toLowerCase()
-			.replace(iLoveRegex, '')
-			.replaceAll(' ', '');
+		return userInput.toLowerCase().replace(iLoveRegex, '');
 	};
 	const names = data.map((item) => cleanedUpItems(item.name));
 	const trimmedItem = cleanedUpItems(itemName);
