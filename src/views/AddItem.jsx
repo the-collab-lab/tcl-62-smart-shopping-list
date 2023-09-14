@@ -4,33 +4,36 @@ import React, { useState } from 'react';
 //LOCAL IMPORTS
 import { addItem } from '../api/firebase.js';
 
-export function AddItem({ listToken, data, name }) {
+export function AddItem({ listToken, data }) {
 	// SET STATES
 	const [itemName, setItemName] = useState('');
 	const [days, setDays] = useState(7);
 	const [status, setStatus] = useState(null);
-
-	// const removeCharacters = (userInput) =>{
+	// NON RegEx VERSION FOR CLEANING INPUT
+	// const cleanedUpItems = (userInput) =>{
 	// 	const alphabet = 'abcdefghijklmnopqrstuvwxyz'
 	// 	const acceptedCharacters = alphabet+alphabet.toUpperCase()+'0123456789'
 	// 	let acceptableString = ''
-	// 	for (let i=0; i<itemName.length; i++){
+	// 	for (let i=0; i<userInput.length; i++){
 	// 		const goodChar = userInput[i]
-	// 		if( acceptedCharacters.includes(goodChar)){
+	// 		if(acceptedCharacters.includes(goodChar)){
 	// 			acceptableString += goodChar
 	// 		}
 	// 	}
 	// 	return acceptableString.toLowerCase()
 	// }
 
-	// const trimmedItem = removeCharacters(userInput)
-	const iLoveRegex = /[^a-zA-Z0-9]/g;
+	// const trimmedItem = cleanedUpItems(itemName)
+	// const names = data.map((item) => cleanedUpItems(item.name))
+
+	// RegEX VERSION, SAME RESULT AS ABOVE
+	const iLoveRegex = /[^a-z0-9]/g;
 	const cleanedUpItems = (userInput) => {
 		return userInput.toLowerCase().replace(iLoveRegex, '');
 	};
-	const names = data.map((item) => cleanedUpItems(item.name));
+	const names = data.map((key) => cleanedUpItems(key.name));
 	const trimmedItem = cleanedUpItems(itemName);
-	const checkForDuplicates = names.includes(trimmedItem || itemName);
+	const checkForDuplicates = names.includes(trimmedItem);
 
 	// HANDLE EVENTS
 	const handleItemNameChange = (e) => {
@@ -41,7 +44,6 @@ export function AddItem({ listToken, data, name }) {
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
 		if (!itemName || trimmedItem === '') {
 			setStatus(
 				`You've submitted an empty field. Please enter a valid item name to add to list`,
@@ -59,7 +61,6 @@ export function AddItem({ listToken, data, name }) {
 			itemName: itemName,
 			daysUntilNextPurchase: days,
 		};
-
 		try {
 			await addItem(listToken, itemData);
 			setStatus('This item has been added to your list!');
@@ -80,7 +81,6 @@ export function AddItem({ listToken, data, name }) {
 						id="itemName"
 						onChange={handleItemNameChange}
 						value={itemName}
-						// required
 					/>
 				</label>
 				<br />
