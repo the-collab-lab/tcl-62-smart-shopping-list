@@ -26,13 +26,20 @@ export function AddItem({ listToken, data }) {
 	// const trimmedItem = cleanedUpItems(itemName)
 	// const names = data.map((item) => cleanedUpItems(item.name))
 
-	// RegEX VERSION, SAME RESULT AS ABOVE
-	const iLoveRegex = /[^a-z0-9]/g;
-	const cleanedUpItems = (userInput) => {
-		return userInput.toLowerCase().replace(iLoveRegex, '');
+	// function to clear the message after being displayed
+	const clearMessageAfterDisplay = (setMessageFunction, delayMs = 1000) => {
+		setTimeout(() => {
+			setMessageFunction('');
+		}, delayMs);
 	};
-	const names = data.map((key) => cleanedUpItems(key.name));
-	const trimmedItem = cleanedUpItems(itemName);
+
+	// RegEX VERSION, SAME RESULT AS ABOVE
+	const regexSpecialCharacters = /[^a-z0-9]/g;
+	const cleanUpItem = (userInput) => {
+		return userInput.toLowerCase().replace(regexSpecialCharacters, '');
+	};
+	const names = data.map((key) => cleanUpItem(key.name));
+	const trimmedItem = cleanUpItem(itemName);
 	const checkForDuplicates = names.includes(trimmedItem);
 
 	// HANDLE EVENTS
@@ -48,11 +55,13 @@ export function AddItem({ listToken, data }) {
 			setStatus(
 				`You've submitted an empty field. Please enter a valid item name to add to list`,
 			);
+			clearMessageAfterDisplay(setStatus);
 			setItemName('');
 			return;
 		}
 		if (checkForDuplicates) {
 			setStatus(`You have already added this item`);
+			clearMessageAfterDisplay(setStatus);
 			setItemName('');
 			return;
 		}
@@ -64,10 +73,12 @@ export function AddItem({ listToken, data }) {
 		try {
 			await addItem(listToken, itemData);
 			setStatus('This item has been added to your list!');
+			clearMessageAfterDisplay(setStatus);
 			setItemName('');
 			setDays(7);
 		} catch (error) {
 			setStatus("Oh no, this item wasn't added");
+			clearMessageAfterDisplay(setStatus);
 		}
 	};
 
