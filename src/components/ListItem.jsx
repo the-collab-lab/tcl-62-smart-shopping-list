@@ -35,7 +35,7 @@ export function ListItem({
 			today,
 			dateNextPurchased.toDate(),
 		);
-		console.log('days between: ', daysToNextPurchase);
+
 		if (
 			dateLastPurchased &&
 			getDaysBetweenDates(dateLastPurchased?.toDate(), today) > 60
