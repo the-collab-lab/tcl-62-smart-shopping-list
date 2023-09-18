@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from 'react';
 import { db } from './config';
 import { getFutureDate, getDaysBetweenDates } from '../utils';
+import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 
 /**
  * A custom hook that subscribes to a shopping list in our Firestore database
@@ -77,12 +78,49 @@ export async function addItem(listId, { itemName, daysUntilNextPurchase }) {
 	}
 }
 
-export async function updateItem(list, itemId, dateNextPurchased) {
+export async function updateItem(
+	list,
+	itemId,
+	dateLastPurchased,
+	dateCreated,
+	dateNextPurchased,
+	totalPurchases,
+) {
+	const now = Date.now(); //current date
+	const dateLastPurchasedOrCreated = dateLastPurchased
+		? dateLastPurchased.toDate()
+		: dateCreated.toDate();
+
+	const previousEstimate = getDaysBetweenDates(
+		dateLastPurchasedOrCreated,
+		dateNextPurchased.toDate(),
+	);
+	const daysSinceLastTransaction = getDaysBetweenDates(
+		dateLastPurchasedOrCreated,
+		now,
+	);
+
+	const daysUntilNextPurchasedDate = calculateEstimate(
+		previousEstimate,
+		daysSinceLastTransaction,
+		totalPurchases,
+	);
+
+	const getNewNextPurchasedDate = (days) => {
+		const estimatedDaysInMilliseconds = days * 1000 * 60 * 60 * 24;
+		const newDateMilliseconds = estimatedDaysInMilliseconds + now;
+		return new Date(newDateMilliseconds);
+	};
+
+	const newNextPurchasedDate = getNewNextPurchasedDate(
+		daysUntilNextPurchasedDate,
+	);
+
 	const docRef = doc(db, list, itemId);
 	return await updateDoc(docRef, {
 		dateLastPurchased: new Date(),
 		totalPurchases: increment(1),
-		dateNextPurchased: dateNextPurchased,
+		dateNextPurchased: newNextPurchasedDate,
 	});
 }
 
