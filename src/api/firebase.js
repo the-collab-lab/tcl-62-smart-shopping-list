@@ -86,7 +86,7 @@ export async function updateItem(
 	dateNextPurchased,
 	totalPurchases,
 ) {
-	const now = Date.now(); //current date
+	const now = Date.now(); //current date in ms
 	const dateLastPurchasedOrCreated = dateLastPurchased
 		? dateLastPurchased.toDate()
 		: dateCreated.toDate();
@@ -97,7 +97,7 @@ export async function updateItem(
 	);
 	const daysSinceLastTransaction = getDaysBetweenDates(
 		dateLastPurchasedOrCreated,
-		now,
+		new Date(),
 	);
 
 	const daysUntilNextPurchasedDate = calculateEstimate(
