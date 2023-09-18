@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import { ListItem } from '../components';
 import { useNavigate } from 'react-router-dom';
+import { comparePurchaseUrgency } from '../api/firebase.js';
 
 export function List({ data, listToken }) {
 	// state for input
 	const [input, setInput] = useState('');
-	const [searchData, setSearchData] = useState(data);
+	const [searchData, setSearchData] = useState(comparePurchaseUrgency(data));
 	const [isValid, setIsValid] = useState(false);
 	const [searchLength, setSearchLength] = useState(1);
 	const navigate = useNavigate();
-
+	console.log('sorted list: ', comparePurchaseUrgency(data));
 	// Handle events
 	const handleInputChange = (e) => {
 		setInput(e.target.value);
@@ -65,7 +66,14 @@ export function List({ data, listToken }) {
 						<ul>
 							{searchData &&
 								searchData.map((item) => (
-									<ListItem key={item.id} name={item.name} itemId={item.id} dateLastPurchased={item.dateLastPurchased} listToken={listToken}/>
+									<ListItem
+										key={item.id}
+										name={item.name}
+										itemId={item.id}
+										dateLastPurchased={item.dateLastPurchased}
+										dateNextPurchased={item.dateNextPurchased}
+										listToken={listToken}
+									/>
 								))}
 						</ul>
 					) : (

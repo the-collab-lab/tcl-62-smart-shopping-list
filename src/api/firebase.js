@@ -11,7 +11,7 @@ import {
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { db } from './config';
-import { getFutureDate } from '../utils';
+import { getFutureDate, getDaysBetweenDates } from '../utils';
 
 /**
  * A custom hook that subscribes to a shopping list in our Firestore database
@@ -106,3 +106,36 @@ export async function getExistingList(listId) {
 		return false;
 	}
 }
+
+//comparePurchaseUrgency
+export function comparePurchaseUrgency(data) {
+	const today = new Date();
+	//sort for inactive
+	// use filter function to filter through data array
+	const inactiveItems = data.filter(
+		//filter items where today's date - last purchase date > 60
+		(item) =>
+			item.dateLastPurchased &&
+			getDaysBetweenDates(item.dateLastPurchased?.toDate(), today) > 60,
+	);
+	const activeItems = data.filter(
+		//filter items where there's no date last purchased OR today's date - last purchase date < 60 days
+		(item) =>
+			item.dateLastPurchased === undefined ||
+			(item.dateLastPurchased &&
+				getDaysBetweenDates(item.dateLastPurchased?.toDate(), today) < 60),
+	);
+
+	//sorts items in ascending order of days until purchase, and
+	//use sort function to sort data prop array
+	const sortedActiveItems = activeItems.sort(
+		//pass a custom sorting function that compares the dateNextPurchased.seconds property of each element
+		// this will sort the array in descending order based on the date next purchase value
+		(a, b) => b.dateNextPurchased.seconds - a.dateNextPurchased.seconds,
+	);
+	//add the inactive elements to the end of the sorted array
+	const timeSortedItems = sortedActiveItems.concat(inactiveItems);
+	return timeSortedItems;
+}
+
+//sorts items with the same days until purchase alphabetically
