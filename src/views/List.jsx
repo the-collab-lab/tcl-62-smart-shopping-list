@@ -6,11 +6,11 @@ import { comparePurchaseUrgency } from '../api/firebase.js';
 export function List({ data, listToken }) {
 	// state for input
 	const [input, setInput] = useState('');
-	const [searchData, setSearchData] = useState(comparePurchaseUrgency(data));
+	const [searchData, setSearchData] = useState(data);
 	const [isValid, setIsValid] = useState(false);
 	const [searchLength, setSearchLength] = useState(1);
 	const navigate = useNavigate();
-	console.log('sorted list: ', comparePurchaseUrgency(data));
+
 	// Handle events
 	const handleInputChange = (e) => {
 		setInput(e.target.value);
@@ -21,6 +21,10 @@ export function List({ data, listToken }) {
 	const handleClick = () => {
 		navigate('/add-item');
 	};
+
+	useEffect(() => {
+		setSearchData(comparePurchaseUrgency(data));
+	}, [data]);
 
 	useEffect(() => {
 		const searchRegex = new RegExp(
@@ -70,8 +74,10 @@ export function List({ data, listToken }) {
 										key={item.id}
 										name={item.name}
 										itemId={item.id}
+										dateCreated={item.dateCreated}
 										dateLastPurchased={item.dateLastPurchased}
 										dateNextPurchased={item.dateNextPurchased}
+										totalPurchases={item.totalPurchases}
 										listToken={listToken}
 									/>
 								))}

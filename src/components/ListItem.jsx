@@ -12,6 +12,8 @@ export function ListItem({
 	dateLastPurchased,
 	itemId,
 	dateNextPurchased,
+	dateCreated,
+	totalPurchases,
 }) {
 	// SET STATES
 	const [isChecked, setIsChecked] = useState(
@@ -55,7 +57,14 @@ export function ListItem({
 	// EVENT HANDLER
 	const handleCheck = () => {
 		if (!isChecked) {
-			updateItem(listToken, itemId);
+			updateItem(
+				listToken,
+				itemId,
+				dateLastPurchased,
+				dateCreated,
+				dateNextPurchased,
+				totalPurchases,
+			);
 		}
 		setIsChecked((prevState) => !prevState);
 	};
