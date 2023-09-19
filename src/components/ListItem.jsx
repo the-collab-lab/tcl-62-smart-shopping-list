@@ -36,8 +36,10 @@ export function ListItem({
 		setIsChecked((prevState) => !prevState);
 	};
 
-	const handleClick = () => {
-		const confirmationChoice = window.confirm('Confirmation message');
+	const handleDelete = () => {
+		const confirmationChoice = window.confirm(
+			'Are you sure you want to permanently delete this item?',
+		);
 		if (confirmationChoice) {
 			deleteItem(listToken, itemId);
 		}
@@ -54,7 +56,7 @@ export function ListItem({
 			/>
 			<label htmlFor={name}> {name} </label>
 
-			<button onClick={handleClick}> Delete </button>
+			<button onClick={handleDelete}> Delete </button>
 		</li>
 	);
 }
