@@ -203,10 +203,10 @@ export function comparePurchaseUrgency(data) {
 	const timeSortedItems = sortedActiveItems.concat(inactiveItems);
 
 	//TESTING
-	console.log('inactive items: ', inactiveItems);
-	console.log('active items: ', activeItems);
-	console.log('sorted active items: ', sortedActiveItems);
-	console.log('all items sorted: ', timeSortedItems);
+	// console.log('inactive items: ', inactiveItems);
+	// console.log('active items: ', activeItems);
+	// console.log('sorted active items: ', sortedActiveItems);
+	// console.log('all items sorted: ', timeSortedItems);
 	timeSortedItems.map((item) => {
 		console.log(
 			'item name',
