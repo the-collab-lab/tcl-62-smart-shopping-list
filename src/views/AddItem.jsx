@@ -9,22 +9,6 @@ export function AddItem({ listToken, data }) {
 	const [itemName, setItemName] = useState('');
 	const [days, setDays] = useState(7);
 	const [status, setStatus] = useState(null);
-	// NON RegEx VERSION FOR CLEANING INPUT
-	// const cleanedUpItems = (userInput) =>{
-	// 	const alphabet = 'abcdefghijklmnopqrstuvwxyz'
-	// 	const acceptedCharacters = alphabet+alphabet.toUpperCase()+'0123456789'
-	// 	let acceptableString = ''
-	// 	for (let i=0; i<userInput.length; i++){
-	// 		const goodChar = userInput[i]
-	// 		if(acceptedCharacters.includes(goodChar)){
-	// 			acceptableString += goodChar
-	// 		}
-	// 	}
-	// 	return acceptableString.toLowerCase()
-	// }
-
-	// const trimmedItem = cleanedUpItems(itemName)
-	// const names = data.map((item) => cleanedUpItems(item.name))
 
 	// function to clear the message after being displayed
 	const clearMessageAfterDisplay = (setMessageFunction, delayMs = 1000) => {
@@ -33,7 +17,6 @@ export function AddItem({ listToken, data }) {
 		}, delayMs);
 	};
 
-	// RegEX VERSION, SAME RESULT AS ABOVE
 	const regexSpecialCharacters = /[^a-z0-9]/g;
 	const cleanUpItem = (userInput) => {
 		return userInput.toLowerCase().replace(regexSpecialCharacters, '');
