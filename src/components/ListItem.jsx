@@ -5,16 +5,33 @@ import React, { useState } from 'react';
 import './ListItem.css';
 import { updateItem } from '../api/firebase.js';
 
-export function ListItem({ name, listToken, dateLastPurchased, itemId }) {
+export function ListItem({
+	name,
+	listToken,
+	dateLastPurchased,
+	itemId,
+	totalPurchases,
+	dateCreated,
+	dateNextPurchased,
+}) {
+	const now = Date.now() / 1000; //current time in seconds
+
 	// SET STATES
 	const [isChecked, setIsChecked] = useState(
-		Date.now() / 1000 - dateLastPurchased?.seconds < 60 * 60 * 24,
+		now - dateLastPurchased?.seconds < 60 * 60 * 24,
 	);
 
 	// EVENT HANDLER
 	const handleCheck = () => {
 		if (!isChecked) {
-			updateItem(listToken, itemId);
+			updateItem(
+				listToken,
+				itemId,
+				dateLastPurchased,
+				dateCreated,
+				dateNextPurchased,
+				totalPurchases,
+			);
 		}
 		setIsChecked((prevState) => !prevState);
 	};

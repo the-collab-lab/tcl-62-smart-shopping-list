@@ -65,7 +65,16 @@ export function List({ data, listToken }) {
 						<ul>
 							{searchData &&
 								searchData.map((item) => (
-									<ListItem key={item.id} name={item.name} itemId={item.id} dateLastPurchased={item.dateLastPurchased} listToken={listToken}/>
+									<ListItem
+										key={item.id}
+										name={item.name}
+										itemId={item.id}
+										dateCreated={item.dateCreated}
+										dateLastPurchased={item.dateLastPurchased}
+										dateNextPurchased={item.dateNextPurchased}
+										totalPurchases={item.totalPurchases}
+										listToken={listToken}
+									/>
 								))}
 						</ul>
 					) : (
