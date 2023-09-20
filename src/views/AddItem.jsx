@@ -4,11 +4,26 @@ import React, { useState } from 'react';
 //LOCAL IMPORTS
 import { addItem } from '../api/firebase.js';
 
-export function AddItem({ listToken }) {
+export function AddItem({ listToken, data }) {
 	// SET STATES
 	const [itemName, setItemName] = useState('');
 	const [days, setDays] = useState(7);
 	const [status, setStatus] = useState(null);
+
+	// function to clear the message after being displayed
+	const clearMessageAfterDisplay = (setMessageFunction, delayMs = 1000) => {
+		setTimeout(() => {
+			setMessageFunction('');
+		}, delayMs);
+	};
+
+	const regexSpecialCharacters = /[^a-z0-9]/g;
+	const cleanUpItem = (userInput) => {
+		return userInput.toLowerCase().replace(regexSpecialCharacters, '');
+	};
+	const names = data.map((key) => cleanUpItem(key.name));
+	const trimmedItem = cleanUpItem(itemName);
+	const checkForDuplicates = names.includes(trimmedItem);
 
 	// HANDLE EVENTS
 	const handleItemNameChange = (e) => {
@@ -19,19 +34,34 @@ export function AddItem({ listToken }) {
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		if (!itemName || trimmedItem === '') {
+			setStatus(
+				`You've submitted an empty field. Please enter a valid item name to add to list`,
+			);
+			clearMessageAfterDisplay(setStatus);
+			setItemName('');
+			return;
+		}
+		if (checkForDuplicates) {
+			setStatus(`You have already added this item`);
+			clearMessageAfterDisplay(setStatus);
+			setItemName('');
+			return;
+		}
 
 		let itemData = {
 			itemName: itemName,
 			daysUntilNextPurchase: days,
 		};
-
 		try {
 			await addItem(listToken, itemData);
 			setStatus('This item has been added to your list!');
+			clearMessageAfterDisplay(setStatus);
 			setItemName('');
 			setDays(7);
 		} catch (error) {
 			setStatus("Oh no, this item wasn't added");
+			clearMessageAfterDisplay(setStatus);
 		}
 	};
 
@@ -45,7 +75,6 @@ export function AddItem({ listToken }) {
 						id="itemName"
 						onChange={handleItemNameChange}
 						value={itemName}
-						required
 					/>
 				</label>
 				<br />

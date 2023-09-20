@@ -6,7 +6,7 @@ Add yourself as a contributor to this project as a Markdown link that links your
 
 ## Cohort Participants
 
--[Hans J Schroeder](https://github.com/hajschroeder) 📽
+- [Hans J Schroeder](https://github.com/hajschroeder) 📽
 
 - [Magdalena Slifierz](https://github.com/MagdaSlifierz) :honeybee:
 
