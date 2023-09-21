@@ -23,6 +23,10 @@ export function List({ data, listToken }) {
 	};
 
 	useEffect(() => {
+		setSearchData(comparePurchaseUrgency(data));
+	}, [data]);
+
+	useEffect(() => {
 		const searchRegex = new RegExp(
 			input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
 			'i',
