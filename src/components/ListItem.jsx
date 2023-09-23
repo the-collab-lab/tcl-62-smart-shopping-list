@@ -33,9 +33,8 @@ export function ListItem({
 	function getUrgency(dateLastPurchased = undefined, dateNextPurchased) {
 		const today = new Date();
 
-		const daysToNextPurchase = Math.round(getDaysBetweenDates(...
-			today,
-			dateNextPurchased.toDate(),
+		const daysToNextPurchase = Math.round(
+			getDaysBetweenDates(today, dateNextPurchased.toDate()),
 		);
 
 		if (
