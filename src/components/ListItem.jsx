@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 // LOCAL IMPORTS
 import './ListItem.css';
-import { updateItem } from '../api/firebase.js';
+import { updateItem, deleteItem } from '../api/firebase.js';
 
 export function ListItem({
 	name,
@@ -36,6 +36,15 @@ export function ListItem({
 		setIsChecked((prevState) => !prevState);
 	};
 
+	const handleDelete = () => {
+		const confirmationChoice = window.confirm(
+			'Are you sure you want to permanently delete this item?',
+		);
+		if (confirmationChoice) {
+			deleteItem(listToken, itemId);
+		}
+	};
+
 	return (
 		<li className="ListItem">
 			<input
@@ -46,6 +55,8 @@ export function ListItem({
 				onChange={handleCheck}
 			/>
 			<label htmlFor={name}> {name} </label>
+
+			<button onClick={handleDelete}> Delete </button>
 		</li>
 	);
 }
