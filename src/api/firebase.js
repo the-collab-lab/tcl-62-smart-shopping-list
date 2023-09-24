@@ -126,12 +126,8 @@ export async function updateItem(
 }
 
 export async function deleteItem(list, itemId) {
-	try {
-		const deleteDocRef = doc(db, list, itemId);
-		return await deleteDoc(deleteDocRef);
-	} catch (error) {
-		throw error;
-	}
+	const deleteDocRef = doc(db, list, itemId);
+	return await deleteDoc(deleteDocRef);
 }
 
 export async function getExistingList(listId) {
