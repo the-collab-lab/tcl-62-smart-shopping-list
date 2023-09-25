@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ListItem } from '../components';
 import { useNavigate } from 'react-router-dom';
+import { comparePurchaseUrgency } from '../api/firebase.js';
 
 export function List({ data, listToken }) {
 	// state for input
@@ -22,12 +23,16 @@ export function List({ data, listToken }) {
 	};
 
 	useEffect(() => {
+		setSearchData(comparePurchaseUrgency(data));
+	}, [data]);
+
+	useEffect(() => {
 		const searchRegex = new RegExp(
 			input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
 			'i',
 		);
 		const filteredData = data.filter((item) => searchRegex.test(item.name));
-		setSearchData(filteredData);
+		setSearchData(comparePurchaseUrgency(filteredData));
 	}, [data, input]);
 
 	useEffect(() => {

@@ -143,3 +143,72 @@ export async function getExistingList(listId) {
 		return false;
 	}
 }
+
+//comparePurchaseUrgency
+export function comparePurchaseUrgency(data) {
+	const today = new Date();
+
+	//SORT OUT INACTIVE ITEMS
+	// use filter function to filter through data array
+	const inactiveItems = data.filter(
+		//filter items where today's date - last purchase date > 60
+		(item) =>
+			item.dateLastPurchased &&
+			getDaysBetweenDates(item.dateLastPurchased?.toDate(), today) > 60,
+	);
+
+	//SORT OUT ACTIVE ITEMS
+	const activeItems = data.filter(
+		//filter items where there's no date last purchased OR today's date - last purchase date < 60 days
+		(item) =>
+			!item.dateLastPurchased ||
+			(item.dateLastPurchased &&
+				getDaysBetweenDates(item.dateLastPurchased.toDate(), today) < 60),
+	);
+
+	//sorts items in ascending order of days until purchase, and
+	//use sort function to sort data prop array
+	const sortedActiveItems = activeItems.sort(
+		//pass a custom sorting function that compares the dateNextPurchased.seconds property of each element
+		// this will sort the array in descending order based on the date next purchase value
+		(a, b) => {
+			const daysUntilNextPurchaseA = Math.round(
+				getDaysBetweenDates(today, a.dateNextPurchased.toDate()),
+			);
+			const daysUntilNextPurchaseB = Math.round(
+				getDaysBetweenDates(today, b.dateNextPurchased.toDate()),
+			);
+
+			// If the number of days until the next purchase is equal, sort by name
+			if (daysUntilNextPurchaseA === daysUntilNextPurchaseB) {
+				return a.name.localeCompare(b.name);
+			}
+			// Otherwise, sort by the number of days until the next purchase
+			return a.dateNextPurchased.seconds - b.dateNextPurchased.seconds;
+		},
+	);
+
+	//SORT ALPHABETICALLY
+	// using sorted active items
+	// compare each item to next item to see if days until next purchase is equal
+	//if not equal
+	//do nothing
+	// if equal compare first letter of each name
+	//sort by alphabetical order
+	//if equal...
+
+	//add the inactive elements to the end of the sorted array
+	const timeSortedItems = sortedActiveItems.concat(inactiveItems);
+	timeSortedItems.map((item) => {
+		console.log(
+			'item name',
+			item.name,
+			'-> days until next purchase: ',
+			Math.round(getDaysBetweenDates(today, item.dateNextPurchased.toDate())),
+		);
+	});
+
+	return timeSortedItems;
+}
+
+//sorts items with the same days until purchase alphabetically
