@@ -61,7 +61,7 @@ export function Home({ createNewToken, setListToken }) {
 					value={existingToken}
 					placeholder="Enter name of existing list"
 				/>
-				<Button>Submit</Button>
+				<Button type="submit">Submit</Button>
 			</form>
 			{status && <p>{status}</p>}
 			<Spacer />
