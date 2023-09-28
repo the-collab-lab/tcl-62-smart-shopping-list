@@ -1,9 +1,10 @@
 // LIBRARY IMPORTS
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+import { Flex, Spacer, Button } from '@chakra-ui/react';
 
 // LOCAL IMPORTS
-import './Home.css';
+// import './Home.css';
 import { getExistingList } from '../api/firebase';
 
 export function Home({ createNewToken, setListToken }) {
@@ -39,8 +40,15 @@ export function Home({ createNewToken, setListToken }) {
 	};
 
 	return (
-		<div className="Home">
+		<Flex
+			bg="brand.light_green"
+			direction="column"
+			justifyContent="center"
+			minHeight="calc(100vh - headerHeight - navHeight)"
+			flex="1"
+		>
 			<p>Welcome to PredictaCart, your smart shopping list!</p>
+			<Spacer />
 			<form onSubmit={handleSubmit}>
 				<label htmlFor="existingToken">
 					Which list would you like to join?
@@ -53,11 +61,11 @@ export function Home({ createNewToken, setListToken }) {
 					value={existingToken}
 					placeholder="Enter name of existing list"
 				/>
-				<button>Submit</button>
+				<Button>Submit</Button>
 			</form>
 			{status && <p>{status}</p>}
-
-			<button onClick={handleClick}> Create a new list </button>
-		</div>
+			<Spacer />
+			<Button onClick={handleClick}> Create a new list </Button>
+		</Flex>
 	);
 }

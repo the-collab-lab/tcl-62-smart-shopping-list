@@ -2,6 +2,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ChakraProvider } from '@chakra-ui/provider';
+import { CSSReset } from '@chakra-ui/css-reset';
 import { extendTheme } from '@chakra-ui/react';
 
 //LOCAL IMPORTS
@@ -31,6 +32,7 @@ const root = createRoot(document.getElementById('root'));
 root.render(
 	<StrictMode>
 		<ChakraProvider theme={theme}>
+			<CSSReset />
 			<Fonts />
 			<App />
 		</ChakraProvider>
