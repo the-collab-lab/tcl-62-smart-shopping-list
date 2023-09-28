@@ -40,9 +40,7 @@ export function Home({ createNewToken, setListToken }) {
 
 	return (
 		<div className="Home">
-			<p>
-				Hello from the home (<code>/</code>) page!
-			</p>
+			<p>Welcome to PredictaCart, your smart shopping list!</p>
 			<form onSubmit={handleSubmit}>
 				<label htmlFor="existingToken">
 					Which list would you like to join?

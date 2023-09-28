@@ -1,4 +1,5 @@
 import { Outlet, NavLink } from 'react-router-dom';
+import { Link, Tabs, TabList, Tab } from '@chakra-ui/react';
 
 import './Layout.css';
 
@@ -15,38 +16,31 @@ export function Layout() {
 		<>
 			<div className="Layout">
 				<header className="Layout-header">
-					<h1>Smart shopping list</h1>
+					<h1>PredictaCart</h1>
 				</header>
 				<main className="Layout-main">
 					<Outlet />
 				</main>
 				<nav className="Nav">
-					<div className="Nav-container">
-						<NavLink
-							to="/"
-							className={({ isActive, isPending }) =>
-								isPending ? 'pending' : isActive ? 'active' : ''
-							}
-						>
-							Home
-						</NavLink>
-						<NavLink
-							to="/list"
-							className={({ isActive, isPending }) =>
-								isPending ? 'pending' : isActive ? 'active' : ''
-							}
-						>
-							List
-						</NavLink>
-						<NavLink
-							to="/add-item"
-							className={({ isActive, isPending }) =>
-								isPending ? 'pending' : isActive ? 'active' : ''
-							}
-						>
-							Add Item
-						</NavLink>
-					</div>
+					<Tabs variant="soft-rounded" colorScheme="green">
+						<TabList>
+							<Tab>
+								<Link as={NavLink} to="/">
+									Home
+								</Link>
+							</Tab>
+							<Tab>
+								<Link as={NavLink} to="/list">
+									List
+								</Link>
+							</Tab>
+							<Tab>
+								<Link as={NavLink} to="/add-item">
+									Add Item
+								</Link>
+							</Tab>
+						</TabList>
+					</Tabs>
 				</nav>
 			</div>
 		</>
