@@ -9,8 +9,6 @@ import {
 	Tab,
 } from '@chakra-ui/react';
 
-// import './Layout.css';
-
 export function Layout() {
 	return (
 		<Flex as="div" direction="column" h="100vh">

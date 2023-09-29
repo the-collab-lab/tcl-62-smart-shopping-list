@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { Flex, Spacer, Button } from '@chakra-ui/react';
 
 // LOCAL IMPORTS
-// import './Home.css';
 import { getExistingList } from '../api/firebase';
 
 export function Home({ createNewToken, setListToken }) {

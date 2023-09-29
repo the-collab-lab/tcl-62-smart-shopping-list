@@ -96,8 +96,7 @@ export function ListItem({
 				color="brand.off_white"
 				onClick={handleDelete}
 			>
-				{' '}
-				Delete{' '}
+				Delete
 			</Button>
 		</li>
 	);
