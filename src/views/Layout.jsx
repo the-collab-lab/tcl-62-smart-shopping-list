@@ -1,54 +1,48 @@
 import { Outlet, NavLink } from 'react-router-dom';
-
-import './Layout.css';
-
-/**
- * TODO: The links defined in this file don't work!
- *
- * Instead of anchor element, they should use a component
- * from `react-router-dom` to navigate to the routes
- * defined in `App.jsx`.
- */
+import {
+	Flex,
+	Center,
+	Heading,
+	Link,
+	Tabs,
+	TabList,
+	Tab,
+} from '@chakra-ui/react';
 
 export function Layout() {
 	return (
-		<>
-			<div className="Layout">
-				<header className="Layout-header">
-					<h1>Smart shopping list</h1>
-				</header>
-				<main className="Layout-main">
-					<Outlet />
-				</main>
-				<nav className="Nav">
-					<div className="Nav-container">
-						<NavLink
-							to="/"
-							className={({ isActive, isPending }) =>
-								isPending ? 'pending' : isActive ? 'active' : ''
-							}
-						>
-							Home
-						</NavLink>
-						<NavLink
-							to="/list"
-							className={({ isActive, isPending }) =>
-								isPending ? 'pending' : isActive ? 'active' : ''
-							}
-						>
-							List
-						</NavLink>
-						<NavLink
-							to="/add-item"
-							className={({ isActive, isPending }) =>
-								isPending ? 'pending' : isActive ? 'active' : ''
-							}
-						>
-							Add Item
-						</NavLink>
-					</div>
-				</nav>
-			</div>
-		</>
+		<Flex as="div" direction="column" h="100vh">
+			<Center as="header" bg="brand.off_white" p={5} boxShadow="md">
+				<Heading as="h1" size="xl" color="brand.navy">
+					PredictaCart
+				</Heading>
+			</Center>
+
+			<Center as="nav" p={4} bg="brand.yellow" boxShadow="md">
+				<Tabs variant="soft-rounded" colorScheme="green" size="lg">
+					<TabList>
+						<Tab>
+							<Link as={NavLink} to="/">
+								Home
+							</Link>
+						</Tab>
+						<Tab>
+							<Link as={NavLink} to="/list">
+								List
+							</Link>
+						</Tab>
+						<Tab>
+							<Link as={NavLink} to="/add-item">
+								Add Item
+							</Link>
+						</Tab>
+					</TabList>
+				</Tabs>
+			</Center>
+
+			<Flex as="main" flex="1" direction="column">
+				<Outlet />
+			</Flex>
+		</Flex>
 	);
 }

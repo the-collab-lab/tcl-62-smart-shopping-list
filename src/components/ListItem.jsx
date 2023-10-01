@@ -1,5 +1,7 @@
-//LIBRARY IMPORTS
+// LIBRARY IMPORTS
 import React, { useState } from 'react';
+import { Button } from '@chakra-ui/react';
+import { DeleteIcon } from '@chakra-ui/icons';
 
 // LOCAL IMPORTS
 import './ListItem.css';
@@ -88,7 +90,14 @@ export function ListItem({
 			/>
 			<label htmlFor={name}> {name} </label>
 			<div className="urgency-indicator">{urgency}</div>
-			<button onClick={handleDelete}> Delete </button>
+			<Button
+				leftIcon={<DeleteIcon />}
+				bg="brand.navy"
+				color="brand.off_white"
+				onClick={handleDelete}
+			>
+				Delete
+			</Button>
 		</li>
 	);
 }
