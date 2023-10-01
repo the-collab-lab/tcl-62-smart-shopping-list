@@ -3,8 +3,6 @@ import {
 	onSnapshot,
 	addDoc,
 	getDocs,
-	query,
-	where,
 	doc,
 	updateDoc,
 	deleteDoc,
@@ -13,7 +11,6 @@ import {
 import { useEffect, useState } from 'react';
 import { db } from './config';
 import { getFutureDate, getDaysBetweenDates } from '../utils';
-import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 
 /**
  * A custom hook that subscribes to a shopping list in our Firestore database
@@ -147,68 +144,76 @@ export async function getExistingList(listId) {
 //comparePurchaseUrgency
 export function comparePurchaseUrgency(data) {
 	const today = new Date();
-
 	//SORT OUT INACTIVE ITEMS
 	// use filter function to filter through data array
-	const inactiveItems = data.filter(
-		//filter items where today's date - last purchase date > 60
-		(item) =>
-			item.dateLastPurchased &&
-			getDaysBetweenDates(item.dateLastPurchased?.toDate(), today) > 60,
-	);
 
-	//SORT OUT ACTIVE ITEMS
-	const activeItems = data.filter(
-		//filter items where there's no date last purchased OR today's date - last purchase date < 60 days
-		(item) =>
-			!item.dateLastPurchased ||
-			(item.dateLastPurchased &&
-				getDaysBetweenDates(item.dateLastPurchased.toDate(), today) < 60),
-	);
-
-	//sorts items in ascending order of days until purchase, and
-	//use sort function to sort data prop array
-	const sortedActiveItems = activeItems.sort(
-		//pass a custom sorting function that compares the dateNextPurchased.seconds property of each element
-		// this will sort the array in descending order based on the date next purchase value
-		(a, b) => {
-			const daysUntilNextPurchaseA = Math.round(
-				getDaysBetweenDates(today, a.dateNextPurchased.toDate()),
-			);
-			const daysUntilNextPurchaseB = Math.round(
-				getDaysBetweenDates(today, b.dateNextPurchased.toDate()),
-			);
-
-			// If the number of days until the next purchase is equal, sort by name
-			if (daysUntilNextPurchaseA === daysUntilNextPurchaseB) {
-				return a.name.localeCompare(b.name);
-			}
-			// Otherwise, sort by the number of days until the next purchase
-			return a.dateNextPurchased.seconds - b.dateNextPurchased.seconds;
-		},
-	);
-
-	//SORT ALPHABETICALLY
-	// using sorted active items
-	// compare each item to next item to see if days until next purchase is equal
-	//if not equal
-	//do nothing
-	// if equal compare first letter of each name
-	//sort by alphabetical order
-	//if equal...
-
-	//add the inactive elements to the end of the sorted array
-	const timeSortedItems = sortedActiveItems.concat(inactiveItems);
-	timeSortedItems.map((item) => {
-		console.log(
-			'item name',
-			item.name,
-			'-> days until next purchase: ',
-			Math.round(getDaysBetweenDates(today, item.dateNextPurchased.toDate())),
+	const isInactive = (item) => {
+		const lastPurchased = item.dateLastPurchased?.toDate();
+		const daysSinceLastPurchased = getDaysBetweenDates(
+			lastPurchased ? lastPurchased : new Date(),
+			today,
 		);
-	});
+		const isInactive = daysSinceLastPurchased > 60;
+		const recentlyPurchased = lastPurchased
+			? daysSinceLastPurchased < 1
+			: false;
+		return isInactive || recentlyPurchased;
+	};
 
-	return timeSortedItems;
+	const activeItems = [];
+	const inactiveItems = [];
+
+	data.forEach((item) =>
+		isInactive(item) ? inactiveItems.push(item) : activeItems.push(item),
+	);
+
+	//sorts items in ascending order of days until purchase first, then by name
+	const sortItems = (a, b) => {
+		const daysUntilNextPurchaseA = Math.round(
+			getDaysBetweenDates(today, a.dateNextPurchased.toDate()),
+		);
+		const daysUntilNextPurchaseB = Math.round(
+			getDaysBetweenDates(today, b.dateNextPurchased.toDate()),
+		);
+
+		// If the number of days until the next purchase is equal, sort by name
+		if (daysUntilNextPurchaseA === daysUntilNextPurchaseB) {
+			return a.name.localeCompare(b.name);
+		}
+		// Otherwise, sort by the number of days until the next purchase
+		return a.dateNextPurchased.seconds - b.dateNextPurchased.seconds;
+	};
+
+	return activeItems.sort(sortItems).concat(inactiveItems.sort(sortItems));
 }
 
-//sorts items with the same days until purchase alphabetically
+/**
+ * Copied from TCL lib because it was returning the days since last if totalPurchases is less than two.
+ * Instead, this returns the previous estimate which makes more sense.
+ * @param previousEstimate
+ * @param daysSinceLastTransaction
+ * @param totalPurchases
+ * @returns {number}
+ */
+export const calculateEstimate = (
+	previousEstimate = 14, // The last estimated purchase interval
+	daysSinceLastTransaction, // The number of days since the item was added to the list or last purchased
+	totalPurchases, // Total number of purchases for the item
+) => {
+	// Not enough data if an item has been purchased 1 time,
+	// just set the estimate based on when it was added to the list
+	if (totalPurchases < 2) return previousEstimate; // TODO open a PR against TCL because we should return this
+	// This calculates how many days should have passed based on
+	// the previous estimate between purchases and the total number of purchased
+	const previousFactor = previousEstimate * totalPurchases;
+	// This calculates how many days should have passed based on
+	// the interval between the most recent transactions
+	// Subtract 1 here to exclude the current purchase in this factor
+	const latestFactor = daysSinceLastTransaction * (totalPurchases - 1);
+	// Divisor is used to find the average between the two factors
+	// Multiplied by 2 between we will add 2 factors together
+	// Subtract 1 here to lower weight of the current purchase in this factor
+	const totalDivisor = totalPurchases * 2 - 1;
+	//Calculate the average interval between the previous factor and the latest factor
+	return Math.round((previousFactor + latestFactor) / totalDivisor);
+};
