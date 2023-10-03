@@ -1,44 +1,58 @@
+// LIBRARY IMPORTS
 import { Outlet, NavLink } from 'react-router-dom';
 import {
 	Flex,
+	Box,
 	Center,
-	Heading,
+	Image,
 	Link,
 	Tabs,
 	TabList,
 	Tab,
 } from '@chakra-ui/react';
 
+// LOCAL IMPORTS
+import logo from '../images/PredictaCartLogo.png';
+
 export function Layout() {
 	return (
-		<Flex as="div" direction="column" h="100vh">
-			<Center as="header" bg="brand.off_white" p={5} boxShadow="md">
-				<Heading as="h1" size="xl" color="brand.navy">
-					PredictaCart
-				</Heading>
-			</Center>
+		<Flex direction="column" h="100vh">
+			<Flex
+				as="header"
+				justify="space-between"
+				alignItems="center"
+				p={4}
+				bgGradient="linear(to-r, #A1c181, #Fcca46, #fe7f2d)"
+			>
+				{/* Logo that navigates to the home page */}
+				<Link as={NavLink} to="/">
+					<Image src={logo} alt="PredictaCart Logo" h="60px" />
+				</Link>
 
-			<Center as="nav" p={4} bg="brand.yellow" boxShadow="md">
-				<Tabs variant="soft-rounded" colorScheme="green" size="lg">
-					<TabList>
-						<Tab>
-							<Link as={NavLink} to="/">
-								Home
-							</Link>
-						</Tab>
-						<Tab>
-							<Link as={NavLink} to="/list">
-								List
-							</Link>
-						</Tab>
-						<Tab>
-							<Link as={NavLink} to="/add-item">
-								Add Item
-							</Link>
-						</Tab>
-					</TabList>
-				</Tabs>
-			</Center>
+				<Center>
+					<Tabs variant="soft-rounded" size="lg">
+						<TabList>
+							<Tab _selected={{ color: 'brand.navy', bg: 'brand.light_green' }}>
+								<Link as={NavLink} to="/">
+									Home
+								</Link>
+							</Tab>
+							<Tab _selected={{ color: 'brand.navy', bg: 'brand.light_green' }}>
+								<Link as={NavLink} to="/list">
+									List
+								</Link>
+							</Tab>
+							<Tab _selected={{ color: 'brand.navy', bg: 'brand.light_green' }}>
+								<Link as={NavLink} to="/add-item">
+									Add Item
+								</Link>
+							</Tab>
+						</TabList>
+					</Tabs>
+				</Center>
+
+				<Box />
+			</Flex>
 
 			<Flex as="main" flex="1" direction="column">
 				<Outlet />
