@@ -13,13 +13,13 @@ import { Fonts } from './Fonts';
 const theme = extendTheme({
 	colors: {
 		brand: {
-			off_white: '#FAF0CA',
-			navy: '#233D4D',
-			yellow: '#FCCA46',
-			orange: '#FE7F2D',
-			light_green: '#A1C181',
-			dark_green: '#619B8A',
-			cherry_red: '#B11B34',
+			floral_white: '#FFFAF0',
+			gunmetal_blue: '#082B35',
+			tea_green: '#C5F9D7',
+			jordy_blue: '#A1C8F7',
+			jasmine: '#F7D486',
+			light_coral: '#F27A7D',
+			grey_violet: '#6C5C70',
 		},
 	},
 	fonts: {

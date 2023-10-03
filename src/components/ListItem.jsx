@@ -92,8 +92,8 @@ export function ListItem({
 			<div className="urgency-indicator">{urgency}</div>
 			<Button
 				leftIcon={<DeleteIcon />}
-				bg="brand.navy"
-				color="brand.off_white"
+				bg="brand.gunmetal_blue"
+				color="brand.floral_white"
 				onClick={handleDelete}
 			>
 				Delete

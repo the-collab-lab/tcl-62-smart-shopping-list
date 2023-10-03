@@ -12,13 +12,13 @@ import {
 export function Layout() {
 	return (
 		<Flex as="div" direction="column" h="100vh">
-			<Center as="header" bg="brand.off_white" p={5} boxShadow="md">
-				<Heading as="h1" size="xl" color="brand.navy">
+			<Center as="header" bg="brand.floral_white" p={5} boxShadow="md">
+				<Heading as="h1" size="xl" color="brand.gunmetal_blue">
 					PredictaCart
 				</Heading>
 			</Center>
 
-			<Center as="nav" p={4} bg="brand.yellow" boxShadow="md">
+			<Center as="nav" p={4} bg="brand.jasmine" boxShadow="md">
 				<Tabs variant="soft-rounded" colorScheme="green" size="lg">
 					<TabList>
 						<Tab>
