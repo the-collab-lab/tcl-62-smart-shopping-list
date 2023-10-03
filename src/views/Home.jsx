@@ -1,7 +1,17 @@
 // LIBRARY IMPORTS
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
-import { Flex, Spacer, Button } from '@chakra-ui/react';
+import {
+	Flex,
+	Spacer,
+	Button,
+	Text,
+	Box,
+	FormControl,
+	FormLabel,
+	Input,
+	InputGroup,
+} from '@chakra-ui/react';
 
 // LOCAL IMPORTS
 import { getExistingList } from '../api/firebase';
@@ -43,28 +53,83 @@ export function Home({ createNewToken, setListToken }) {
 			bg="brand.light_green"
 			direction="column"
 			justifyContent="center"
+			align="center"
 			minHeight="calc(100vh - headerHeight - navHeight)"
 			flex="1"
 		>
-			<p>Welcome to PredictaCart, your smart shopping list!</p>
+			<Box p={4} textAlign="center">
+				<Text fontSize="3xl" as="b" color="brand.navy">
+					Say hello to stress-free shopping and welcome what truly matters.
+				</Text>
+			</Box>
+			<Box p={4} align="center">
+				<Button
+					bg="brand.off_white"
+					textColor="brand.navy"
+					colorScheme="yellow"
+					onClick={handleClick}
+					variant="outline"
+					fontSize={{ base: 'md', md: 'xl' }}
+					size="lg"
+					_hover={{ bg: 'brand.navy', textColor: 'brand.off_white' }}
+					mt={25}
+				>
+					Create a new list
+				</Button>
+			</Box>
+
 			<Spacer />
-			<form onSubmit={handleSubmit}>
-				<label htmlFor="existingToken">
-					Which list would you like to join?
-				</label>
-				<br />
-				<input
-					type="text"
-					id="existingToken"
-					onChange={handleTokenChange}
-					value={existingToken}
-					placeholder="Enter name of existing list"
-				/>
-				<Button type="submit">Submit</Button>
-			</form>
-			{status && <p>{status}</p>}
+			<FormControl>
+				<form onSubmit={handleSubmit}>
+					<Flex
+						bg="brand.light_green"
+						direction="column"
+						justify="center"
+						align="center"
+						gap={2}
+						pt={4}
+					>
+						<FormLabel
+							htmlFor="existingToken"
+							fontSize={{ base: 'md', md: 'xl' }}
+							size="lg"
+						>
+							Join an existing list!
+						</FormLabel>
+						<Flex
+							direction="column" // You can keep this as 'column' for vertical alignment
+							align="center" // Center the input horizontally
+							maxWidth="400px" // Limit the input's width
+						>
+							<InputGroup size="md">
+								<Input
+									type="text"
+									id="existingToken"
+									onChange={handleTokenChange}
+									value={existingToken}
+									placeholder="Enter list name to join"
+								/>
+							</InputGroup>
+						</Flex>
+
+						<Button
+							type="submit"
+							bg="brand.off_white"
+							textColor="brand.navy"
+							onClick={handleClick}
+							variant="outline"
+							fontSize={{ base: 'md', md: 'xl' }}
+							size="lg"
+							_hover={{ bg: 'brand.navy', textColor: 'brand.off_white' }}
+							mt={25}
+						>
+							Submit
+						</Button>
+					</Flex>
+				</form>
+				{status && <p>{status}</p>}
+			</FormControl>
 			<Spacer />
-			<Button onClick={handleClick}> Create a new list </Button>
 		</Flex>
 	);
 }
