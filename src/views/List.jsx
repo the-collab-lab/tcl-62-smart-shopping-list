@@ -1,6 +1,10 @@
+// LIBRARY IMPORTS
 import { useState, useEffect } from 'react';
-import { ListItem } from '../components';
 import { useNavigate } from 'react-router-dom';
+
+// LOCAL IMPORTS
+import { ListItem } from '../components';
+import { AddItem } from '../components/AddItem.jsx';
 import { comparePurchaseUrgency } from '../api/firebase.js';
 
 export function List({ data, listToken }) {
@@ -67,21 +71,24 @@ export function List({ data, listToken }) {
 						{input.length > 0 && <button onClick={handleInputClear}>x</button>}
 					</form>
 					{isValid ? (
-						<ul>
-							{searchData &&
-								searchData.map((item) => (
-									<ListItem
-										key={item.id}
-										name={item.name}
-										itemId={item.id}
-										dateCreated={item.dateCreated}
-										dateLastPurchased={item.dateLastPurchased}
-										dateNextPurchased={item.dateNextPurchased}
-										totalPurchases={item.totalPurchases}
-										listToken={listToken}
-									/>
-								))}
-						</ul>
+						<>
+							<ul>
+								{searchData &&
+									searchData.map((item) => (
+										<ListItem
+											key={item.id}
+											name={item.name}
+											itemId={item.id}
+											dateCreated={item.dateCreated}
+											dateLastPurchased={item.dateLastPurchased}
+											dateNextPurchased={item.dateNextPurchased}
+											totalPurchases={item.totalPurchases}
+											listToken={listToken}
+										/>
+									))}
+							</ul>
+							<AddItem data={data} />
+						</>
 					) : (
 						<h2>no matches</h2>
 					)}

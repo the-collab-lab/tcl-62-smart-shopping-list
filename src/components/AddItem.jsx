@@ -2,6 +2,10 @@
 import React, { useState } from 'react';
 import {
 	Button,
+	FormControl,
+	FormLabel,
+	FormHelperText,
+	Input,
 	Modal,
 	ModalOverlay,
 	ModalContent,
@@ -9,6 +13,7 @@ import {
 	ModalFooter,
 	ModalBody,
 	ModalCloseButton,
+	Select,
 	useDisclosure,
 } from '@chakra-ui/react';
 
@@ -87,34 +92,29 @@ export function AddItem({ listToken, data }) {
 					<ModalHeader>Add an item to your list</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
-						<form onSubmit={handleSubmit}>
-							<label htmlFor="itemName">
-								Item name:
-								<input
+						<form id="addItemForm" onSubmit={handleSubmit}>
+							<FormControl>
+								<FormLabel>Item name:</FormLabel>
+								<Input
 									type="text"
 									id="itemName"
 									onChange={handleItemNameChange}
 									value={itemName}
 								/>
-							</label>
-							<br />
-							<label>
-								How soon will you buy this again?
-								<select onChange={handleDaysChange} value={days}>
+								<br />
+								<FormLabel>How soon will you buy this again?</FormLabel>
+								<Select onChange={handleDaysChange} value={days}>
 									<option value="7">Soon</option>
 									<option value="14">Kind of Soon</option>
 									<option value="30">Not Soon</option>
-								</select>
-							</label>
-							<br />
-
-							<button>Submit</button>
+								</Select>
+							</FormControl>
 						</form>
 					</ModalBody>
 
 					<ModalFooter>
-						<Button colorScheme="blue" mr={3} onClick={onClose}>
-							Close
+						<Button form="addItemForm" type="submit">
+							Submit
 						</Button>
 					</ModalFooter>
 				</ModalContent>
