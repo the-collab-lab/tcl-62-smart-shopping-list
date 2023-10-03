@@ -1,10 +1,12 @@
 // LIBRARY IMPORTS
 import React, { useState } from 'react';
 import {
+	Alert,
+	AlertIcon,
 	Button,
 	FormControl,
 	FormLabel,
-	FormHelperText,
+	FormErrorMessage,
 	Input,
 	Modal,
 	ModalOverlay,
@@ -25,15 +27,13 @@ export function AddItem({ listToken, data }) {
 
 	// SET STATES
 	const [itemName, setItemName] = useState('');
-	const [days, setDays] = useState(7);
-	const [status, setStatus] = useState(null);
+	const [days, setDays] = useState(0);
+	const [isAdded, setIsAdded] = useState(false);
+	const [isNotAdded, setIsNotAdded] = useState(false);
+	const [isAlreadyAdded, setIsAlreadyAdded] = useState(false);
 
-	// function to clear the message after being displayed
-	const clearMessageAfterDisplay = (setMessageFunction, delayMs = 1000) => {
-		setTimeout(() => {
-			setMessageFunction('');
-		}, delayMs);
-	};
+	const isEmptyName = itemName === '';
+	const isEmptyDays = days === 0;
 
 	const regexSpecialCharacters = /[^a-z0-9]/g;
 	const cleanUpItem = (userInput) => {
@@ -52,18 +52,18 @@ export function AddItem({ listToken, data }) {
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (!itemName || trimmedItem === '') {
-			setStatus(
-				`You've submitted an empty field. Please enter a valid item name to add to list`,
-			);
-			clearMessageAfterDisplay(setStatus);
+		// Check for empty fields
+		if (isEmptyName || isEmptyDays || trimmedItem === '') {
+			setIsNotAdded(true);
 			setItemName('');
+			setDays(0);
 			return;
 		}
+
 		if (checkForDuplicates) {
-			setStatus(`You have already added this item`);
-			clearMessageAfterDisplay(setStatus);
+			setIsAlreadyAdded(true);
 			setItemName('');
+			setDays(0);
 			return;
 		}
 
@@ -71,21 +71,54 @@ export function AddItem({ listToken, data }) {
 			itemName: itemName,
 			daysUntilNextPurchase: days,
 		};
+
 		try {
 			await addItem(listToken, itemData);
-			setStatus('This item has been added to your list!');
-			clearMessageAfterDisplay(setStatus);
+			setIsAdded(true);
 			setItemName('');
-			setDays(7);
+			setDays(0);
 		} catch (error) {
-			setStatus("Oh no, this item wasn't added");
-			clearMessageAfterDisplay(setStatus);
+			console.log(error);
 		}
 	};
 
 	return (
 		<div>
-			<Button onClick={onOpen}>Add Item</Button>
+			<Button
+				onClick={() => {
+					setIsAdded(false);
+					setIsNotAdded(false);
+					setIsAlreadyAdded(false);
+					onOpen();
+				}}
+			>
+				Add Item
+			</Button>
+			{/* Alert that displays when item is added */}
+			{isAdded && (
+				<Alert status="success">
+					<AlertIcon />
+					Item added successfully! {data.itemName} has been added to your list.
+				</Alert>
+			)}
+
+			{/* Alert that displays when item not added because missing field/s */}
+			{isNotAdded && (
+				<Alert status="error">
+					<AlertIcon />
+					Item was NOT added. Please fill out all fields.
+				</Alert>
+			)}
+
+			{/* Alert that displays when item not added because duplicate */}
+			{isAlreadyAdded && (
+				<Alert status="warning">
+					<AlertIcon />
+					You've already added this item, so we were not able to add it to your
+					list.
+				</Alert>
+			)}
+
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>
@@ -93,7 +126,7 @@ export function AddItem({ listToken, data }) {
 					<ModalCloseButton />
 					<ModalBody>
 						<form id="addItemForm" onSubmit={handleSubmit}>
-							<FormControl>
+							<FormControl isInvalid={isEmptyName}>
 								<FormLabel>Item name:</FormLabel>
 								<Input
 									type="text"
@@ -101,25 +134,35 @@ export function AddItem({ listToken, data }) {
 									onChange={handleItemNameChange}
 									value={itemName}
 								/>
-								<br />
+								{isEmptyName && (
+									<FormErrorMessage>Item name is required.</FormErrorMessage>
+								)}
+							</FormControl>
+							<FormControl isInvalid={isEmptyDays}>
 								<FormLabel>How soon will you buy this again?</FormLabel>
-								<Select onChange={handleDaysChange} value={days}>
+								<Select
+									placeholder="Select when you'll purchase again"
+									onChange={handleDaysChange}
+									value={days}
+								>
 									<option value="7">Soon</option>
 									<option value="14">Kind of Soon</option>
 									<option value="30">Not Soon</option>
 								</Select>
+								{isEmptyDays && (
+									<FormErrorMessage>A selection is required.</FormErrorMessage>
+								)}
 							</FormControl>
 						</form>
 					</ModalBody>
 
 					<ModalFooter>
-						<Button form="addItemForm" type="submit">
+						<Button form="addItemForm" type="submit" onClick={onClose}>
 							Submit
 						</Button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>
-			{status && <p>{status}</p>}
 		</div>
 	);
 }

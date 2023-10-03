@@ -87,7 +87,7 @@ export function List({ data, listToken }) {
 										/>
 									))}
 							</ul>
-							<AddItem data={data} />
+							<AddItem listToken={listToken} data={data} />
 						</>
 					) : (
 						<h2>no matches</h2>
