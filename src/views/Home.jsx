@@ -2,6 +2,8 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import {
+	Alert,
+	AlertIcon,
 	Flex,
 	Image,
 	Button,
@@ -10,7 +12,6 @@ import {
 	FormControl,
 	FormLabel,
 	Input,
-	InputGroup,
 } from '@chakra-ui/react';
 
 // LOCAL IMPORTS
@@ -73,11 +74,11 @@ export function Home({ createNewToken, setListToken }) {
 					alt="Shopping Cart with the name Predicta Cart"
 					mb={8}
 				/>
-
+			</Box>
+			<Box p={6} display="flex" flexDirection="column" alignItems="center">
 				<Button
 					bg="brand.yellow"
 					textColor="brand.navy"
-					variant="soft-rounded"
 					onClick={handleClick}
 					fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
 					size="xl"
@@ -85,9 +86,9 @@ export function Home({ createNewToken, setListToken }) {
 						bg: 'brand.orange',
 						textColor: 'brand.off_white',
 					}}
-					mt={6} // Increase the top margin for more spacing at the top.
-					mb={6} // Increase the bottom margin for more spacing at the bottom.
-					p={4} // Add padding to increase the space within the button.
+					mt={6}
+					mb={6}
+					p={4}
 					borderRadius="md" // Add a rounded border for better accessibility.
 					aria-label="Click me to create a new list" // Add an aria-label for screen readers.
 				>
@@ -104,7 +105,7 @@ export function Home({ createNewToken, setListToken }) {
 						gap={2}
 						pt={4}
 					>
-						<Text>- -</Text>
+						<Text> - or - </Text>
 						<FormLabel
 							htmlFor="existingToken"
 							fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
@@ -116,25 +117,23 @@ export function Home({ createNewToken, setListToken }) {
 							direction="column" // You can keep this as 'column' for vertical alignment
 							maxWidth="400px" // Limit the input's width
 						>
-							<InputGroup mb={6} size="lg">
-								<Input
-									type="text"
-									id="existingToken"
-									onChange={handleTokenChange}
-									value={existingToken}
-									placeholder=" Enter list name to join"
-									variant="outline"
-									borderColor="brand.yellow"
-									borderRadius="md"
-									aria-label="Enter list name to join" // ARIA label for the input field
-								/>
-							</InputGroup>
+							<Input
+								type="text"
+								id="existingToken"
+								onChange={handleTokenChange}
+								value={existingToken}
+								placeholder=" Enter list name to join"
+								variant="outline"
+								borderColor="brand.yellow"
+								borderRadius="md"
+								aria-label="Enter list name to join" // ARIA label for the input field
+							/>
 						</Flex>
-
 						<Button
+							type="submit"
 							bg="brand.yellow"
 							textColor="brand.navy"
-							onClick={handleClick}
+							onChange={handleTokenChange}
 							fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
 							size="xl"
 							_hover={{
@@ -143,15 +142,21 @@ export function Home({ createNewToken, setListToken }) {
 							}}
 							mt={6}
 							mb={6}
-							p={4} // Add padding to increase the space within the button.
-							borderRadius="md" // Add a rounded border for better accessibility.
-							aria-label="Click me to create a new list" // Add an aria-label for screen readers.
+							p={4}
+							borderRadius="md"
+							aria-label="Click me to join an existing list"
 						>
 							Submit
 						</Button>
 					</Flex>
 				</form>
-				{status && <p>{status}</p>}
+
+				{status && (
+					<Alert status="error">
+						{' '}
+						<AlertIcon /> {status}
+					</Alert>
+				)}
 			</FormControl>
 		</Flex>
 	);
