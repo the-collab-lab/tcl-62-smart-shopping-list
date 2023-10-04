@@ -18,6 +18,7 @@ import {
 	Select,
 	useDisclosure,
 } from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
 
 //LOCAL IMPORTS
 import { addItem } from '../api/firebase.js';
@@ -85,6 +86,9 @@ export function AddItem({ listToken, data }) {
 	return (
 		<div>
 			<Button
+				leftIcon={<AddIcon />}
+				bg="brand.off_white"
+				color="brand.navy"
 				onClick={() => {
 					setIsAdded(false);
 					setIsNotAdded(false);
@@ -94,11 +98,12 @@ export function AddItem({ listToken, data }) {
 			>
 				Add Item
 			</Button>
+
 			{/* Alert that displays when item is added */}
 			{isAdded && (
 				<Alert status="success">
 					<AlertIcon />
-					Item added successfully! {data.itemName} has been added to your list.
+					Item successfully added to your list!
 				</Alert>
 			)}
 
@@ -106,7 +111,8 @@ export function AddItem({ listToken, data }) {
 			{isNotAdded && (
 				<Alert status="error">
 					<AlertIcon />
-					Item was NOT added. Please fill out all fields.
+					Item was NOT added because one of more fields were incomplete. Please
+					fill out all fields.
 				</Alert>
 			)}
 
@@ -121,13 +127,13 @@ export function AddItem({ listToken, data }) {
 
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
-				<ModalContent>
+				<ModalContent bg="brand.off_white" color="brand.navy">
 					<ModalHeader>Add an item to your list</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
 						<form id="addItemForm" onSubmit={handleSubmit}>
 							<FormControl isInvalid={isEmptyName}>
-								<FormLabel>Item name:</FormLabel>
+								<FormLabel fontWeight="bold">Item name:</FormLabel>
 								<Input
 									type="text"
 									id="itemName"
@@ -138,10 +144,13 @@ export function AddItem({ listToken, data }) {
 									<FormErrorMessage>Item name is required.</FormErrorMessage>
 								)}
 							</FormControl>
+							<br />
 							<FormControl isInvalid={isEmptyDays}>
-								<FormLabel>How soon will you buy this again?</FormLabel>
+								<FormLabel fontWeight="bold">
+									How soon will you buy this again?
+								</FormLabel>
 								<Select
-									placeholder="Select when you'll purchase again"
+									placeholder="Choose one"
 									onChange={handleDaysChange}
 									value={days}
 								>
@@ -157,8 +166,15 @@ export function AddItem({ listToken, data }) {
 					</ModalBody>
 
 					<ModalFooter>
-						<Button form="addItemForm" type="submit" onClick={onClose}>
-							Submit
+						<Button
+							leftIcon={<AddIcon />}
+							form="addItemForm"
+							type="submit"
+							onClick={onClose}
+							bg="brand.navy"
+							color="brand.off_white"
+						>
+							Add Item
 						</Button>
 					</ModalFooter>
 				</ModalContent>

@@ -1,6 +1,7 @@
 // LIBRARY IMPORTS
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AddIcon } from '@chakra-ui/icons';
 
 // LOCAL IMPORTS
 import { ListItem } from '../components';
@@ -55,8 +56,7 @@ export function List({ data, listToken }) {
 				<div>
 					<h2>Your list is empty. Get started by adding an item.</h2>
 					<p>To add an item to your list, tap the Add Item button below.</p>
-
-					<button onClick={handleClick}> + Add Item </button>
+					<AddItem listToken={listToken} data={data} />
 				</div>
 			) : (
 				<div>
