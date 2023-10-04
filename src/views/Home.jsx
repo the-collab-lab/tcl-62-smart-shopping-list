@@ -56,25 +56,28 @@ export function Home({ createNewToken, setListToken }) {
 			minHeight="calc(100vh - headerHeight - navHeight)"
 			flex="1"
 		>
-			<Box p={4} display="flex" flexDirection="column" alignItems="center">
+			<Box p={6} display="flex" flexDirection="column" alignItems="center">
 				<Text
 					fontSize={{ base: '2xl', md: '3xl', lg: '4xl', xl: '5xl' }}
 					fontWeight="bold"
 					color="brand.navy"
+					p={4}
+					mb={8}
 				>
 					Say hello to stress-free shopping and welcome what truly matters.
 				</Text>
-
 				<Image
-					src={'./img/groceries@180.png'}
+					src={'src/images/PredictaCartLogoAltColor.png'}
 					boxSize="150px"
 					objectFit="cover"
-					alt="Groceries in the basket"
+					alt="Shopping Cart with the name Predicta Cart"
+					mb={8}
 				/>
 
 				<Button
 					bg="brand.yellow"
 					textColor="brand.navy"
+					variant="soft-rounded"
 					onClick={handleClick}
 					fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
 					size="xl"
@@ -101,6 +104,7 @@ export function Home({ createNewToken, setListToken }) {
 						gap={2}
 						pt={4}
 					>
+						<Text>- or -</Text>
 						<FormLabel
 							htmlFor="existingToken"
 							fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
@@ -137,8 +141,8 @@ export function Home({ createNewToken, setListToken }) {
 								bg: 'brand.orange',
 								textColor: 'brand.off_white',
 							}}
-							mt={6} // Increase the top margin for more spacing at the top.
-							mb={6} // Increase the bottom margin for more spacing at the bottom.
+							mt={6}
+							mb={6}
 							p={4} // Add padding to increase the space within the button.
 							borderRadius="md" // Add a rounded border for better accessibility.
 							aria-label="Click me to create a new list" // Add an aria-label for screen readers.
