@@ -104,7 +104,7 @@ export function Home({ createNewToken, setListToken }) {
 						gap={2}
 						pt={4}
 					>
-						<Text>- or -</Text>
+						<Text>- -</Text>
 						<FormLabel
 							htmlFor="existingToken"
 							fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
