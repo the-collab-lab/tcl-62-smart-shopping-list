@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import {
 	Flex,
-	Spacer,
+	Image,
 	Button,
 	Text,
 	Box,
@@ -53,32 +53,44 @@ export function Home({ createNewToken, setListToken }) {
 			bg="brand.light_green"
 			direction="column"
 			justifyContent="center"
-			align="center"
 			minHeight="calc(100vh - headerHeight - navHeight)"
 			flex="1"
 		>
-			<Box p={4} textAlign="center">
-				<Text fontSize="3xl" as="b" color="brand.navy">
+			<Box p={4} display="flex" flexDirection="column" alignItems="center">
+				<Text
+					fontSize={{ base: '2xl', md: '3xl', lg: '4xl', xl: '5xl' }}
+					fontWeight="bold"
+					color="brand.navy"
+				>
 					Say hello to stress-free shopping and welcome what truly matters.
 				</Text>
-			</Box>
-			<Box p={4} align="center">
+
+				<Image
+					src={'./img/groceries@180.png'}
+					boxSize="150px"
+					objectFit="cover"
+					alt="Groceries in the basket"
+				/>
+
 				<Button
-					bg="brand.off_white"
+					bg="brand.yellow"
 					textColor="brand.navy"
-					colorScheme="yellow"
 					onClick={handleClick}
-					variant="outline"
-					fontSize={{ base: 'md', md: 'xl' }}
-					size="lg"
-					_hover={{ bg: 'brand.navy', textColor: 'brand.off_white' }}
-					mt={25}
+					fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
+					size="xl"
+					_hover={{
+						bg: 'brand.orange',
+						textColor: 'brand.off_white',
+					}}
+					mt={6} // Increase the top margin for more spacing at the top.
+					mb={6} // Increase the bottom margin for more spacing at the bottom.
+					p={4} // Add padding to increase the space within the button.
+					borderRadius="md" // Add a rounded border for better accessibility.
+					aria-label="Click me to create a new list" // Add an aria-label for screen readers.
 				>
 					Create a new list
 				</Button>
 			</Box>
-
-			<Spacer />
 			<FormControl>
 				<form onSubmit={handleSubmit}>
 					<Flex
@@ -91,37 +103,45 @@ export function Home({ createNewToken, setListToken }) {
 					>
 						<FormLabel
 							htmlFor="existingToken"
-							fontSize={{ base: 'md', md: 'xl' }}
-							size="lg"
+							fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
+							size="xl"
 						>
 							Join an existing list!
 						</FormLabel>
 						<Flex
 							direction="column" // You can keep this as 'column' for vertical alignment
-							align="center" // Center the input horizontally
 							maxWidth="400px" // Limit the input's width
 						>
-							<InputGroup size="md">
+							<InputGroup mb={6} size="lg">
 								<Input
 									type="text"
 									id="existingToken"
 									onChange={handleTokenChange}
 									value={existingToken}
-									placeholder="Enter list name to join"
+									placeholder=" Enter list name to join"
+									variant="outline"
+									borderColor="brand.yellow"
+									borderRadius="md"
+									aria-label="Enter list name to join" // ARIA label for the input field
 								/>
 							</InputGroup>
 						</Flex>
 
 						<Button
-							type="submit"
-							bg="brand.off_white"
+							bg="brand.yellow"
 							textColor="brand.navy"
 							onClick={handleClick}
-							variant="outline"
-							fontSize={{ base: 'md', md: 'xl' }}
-							size="lg"
-							_hover={{ bg: 'brand.navy', textColor: 'brand.off_white' }}
-							mt={25}
+							fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
+							size="xl"
+							_hover={{
+								bg: 'brand.orange',
+								textColor: 'brand.off_white',
+							}}
+							mt={6} // Increase the top margin for more spacing at the top.
+							mb={6} // Increase the bottom margin for more spacing at the bottom.
+							p={4} // Add padding to increase the space within the button.
+							borderRadius="md" // Add a rounded border for better accessibility.
+							aria-label="Click me to create a new list" // Add an aria-label for screen readers.
 						>
 							Submit
 						</Button>
@@ -129,7 +149,6 @@ export function Home({ createNewToken, setListToken }) {
 				</form>
 				{status && <p>{status}</p>}
 			</FormControl>
-			<Spacer />
 		</Flex>
 	);
 }
