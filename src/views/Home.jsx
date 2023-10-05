@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import {
 	Alert,
 	AlertIcon,
+	Divider,
 	Flex,
 	Image,
 	Button,
@@ -68,15 +69,8 @@ export function Home({ createNewToken, setListToken }) {
 				>
 					Say hello to stress-free shopping and welcome what truly matters.
 				</Text>
-				<Image
-					src={'src/images/PredictaCartLogoAltColor.png'}
-					boxSize="150px"
-					objectFit="cover"
-					alt="Shopping Cart with the name Predicta Cart"
-					mb={8}
-				/>
 			</Box>
-			<Box p={6} display="flex" flexDirection="column" alignItems="center">
+			<Flex direction="row" justify="center" align="center" gap={6} p={6}>
 				<Button
 					bg="brand.yellow"
 					textColor="brand.navy"
@@ -95,7 +89,7 @@ export function Home({ createNewToken, setListToken }) {
 				>
 					Create a new list
 				</Button>
-			</Box>
+			</Flex>
 			<FormControl>
 				<form onSubmit={handleSubmit}>
 					<Flex
@@ -106,7 +100,7 @@ export function Home({ createNewToken, setListToken }) {
 						gap={2}
 						pt={4}
 					>
-						<Text> - or - </Text>
+						<Divider orientation="horizontal" />
 						<FormLabel
 							htmlFor="existingToken"
 							fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
@@ -130,6 +124,7 @@ export function Home({ createNewToken, setListToken }) {
 								aria-label="Enter list name to join" // ARIA label for the input field
 							/>
 						</Flex>
+
 						<Button
 							type="submit"
 							bg="brand.yellow"
