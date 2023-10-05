@@ -2,6 +2,19 @@ import { useState, useEffect } from 'react';
 import { ListItem } from '../components';
 import { useNavigate } from 'react-router-dom';
 import { comparePurchaseUrgency } from '../api/firebase.js';
+import {
+	Flex,
+	Spacer,
+	Center,
+	Stack,
+	VStack,
+	Button,
+	Input,
+	FormControl,
+	Box,
+	IconButton,
+} from '@chakra-ui/react';
+import { Search2Icon, CloseIcon } from '@chakra-ui/icons';
 
 export function List({ data, listToken }) {
 	// state for input
@@ -46,47 +59,79 @@ export function List({ data, listToken }) {
 	}, [searchData, data.length]);
 
 	return (
-		<>
+		<Flex as="div" direction="column" flex="1">
 			{data && data.length === 0 ? (
-				<div>
-					<h2>Your list is empty. Get started by adding an item.</h2>
-					<p>To add an item to your list, tap the Add Item button below.</p>
-
-					<button onClick={handleClick}> + Add Item </button>
-				</div>
+				<VStack>
+					<Center>
+						<h2>Your list is empty. Get started by adding an item.</h2>
+					</Center>
+					<Center>
+						<p>To add an item to your list, tap the Add Item button below.</p>
+					</Center>
+					<Center>
+						<Button onClick={handleClick}> + Add Item </Button>
+					</Center>
+				</VStack>
 			) : (
-				<div>
-					<form>
-						Search for your item:
-						<input
-							type="text"
-							value={input}
-							onChange={handleInputChange}
-							maxLength={searchLength}
-						/>
-						{input.length > 0 && <button onClick={handleInputClear}>x</button>}
-					</form>
-					{isValid ? (
-						<ul>
-							{searchData &&
-								searchData.map((item) => (
-									<ListItem
-										key={item.id}
-										name={item.name}
-										itemId={item.id}
-										dateCreated={item.dateCreated}
-										dateLastPurchased={item.dateLastPurchased}
-										dateNextPurchased={item.dateNextPurchased}
-										totalPurchases={item.totalPurchases}
-										listToken={listToken}
-									/>
-								))}
-						</ul>
-					) : (
-						<h2>no matches</h2>
-					)}
-				</div>
+				<VStack marginLeft="5rem">
+					<FormControl>
+						<Box
+							w="75%"
+							bg="brand.off_white"
+							boxShadow="md"
+							padding=".5em"
+							justifyContent="space-between"
+							alignItems="left"
+						>
+							<Search2Icon />
+							<Input
+								placeholder="Search For An Item!"
+								variant="filled"
+								focusBorderColor="black"
+								size="xlg"
+								bg="white"
+								width="auto"
+								type="text"
+								value={input}
+								onChange={handleInputChange}
+								maxLength={searchLength}
+							/>
+							{input.length > 0 && (
+								<IconButton
+									size="lg"
+									bg="brand.navy"
+									icon={<CloseIcon />}
+									onClick={handleInputClear}
+								/>
+							)}
+						</Box>
+					</FormControl>
+					<Spacer />
+					<Box w="75%" bg="brand.off_white" boxShadow="md" padding=".5em">
+						{isValid ? (
+							<ul>
+								{searchData &&
+									searchData.map((item) => (
+										<ListItem
+											key={item.id}
+											name={item.name}
+											itemId={item.id}
+											dateCreated={item.dateCreated}
+											dateLastPurchased={item.dateLastPurchased}
+											dateNextPurchased={item.dateNextPurchased}
+											totalPurchases={item.totalPurchases}
+											listToken={listToken}
+											// width="auto"
+										/>
+									))}
+							</ul>
+						) : (
+							<h2>no matches</h2>
+						)}
+					</Box>
+					<Spacer />
+				</VStack>
 			)}
-		</>
+		</Flex>
 	);
 }

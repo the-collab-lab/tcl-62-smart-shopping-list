@@ -16,4 +16,8 @@
 	border-style: solid;
 	border-width: 0.1em;
 	margin: 0.1em 1em;
+	--urgency-inactive-color: --color-pastel-blue;
+	--urgency-soon-color: #b01b34;
+	--urgency-kind-of-soon-color: #fe7f2d;
+	--urgency-not-soon-color: #fcca45;
 }

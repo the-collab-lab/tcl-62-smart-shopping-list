@@ -1,6 +1,6 @@
 // LIBRARY IMPORTS
 import React, { useState } from 'react';
-import { Button } from '@chakra-ui/react';
+import { Button, Box } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 
 // LOCAL IMPORTS
@@ -55,6 +55,19 @@ export function ListItem({
 
 	const urgency = getUrgency(dateLastPurchased, dateNextPurchased);
 
+	const getUrgencyColor = (urgency) => {
+		switch (urgency) {
+			case 'Inactive':
+				return 'urgency-inactive-color';
+			case 'Soon':
+				return 'urgency-soon-color';
+			case 'Kind of soon':
+				return 'urgency-kind-of-soon-color';
+			default:
+				return 'urgency-not-soon-color';
+		}
+	};
+
 	// EVENT HANDLER
 	const handleCheck = () => {
 		if (!isChecked) {
@@ -89,7 +102,12 @@ export function ListItem({
 				onChange={handleCheck}
 			/>
 			<label htmlFor={name}> {name} </label>
-			<div className="urgency-indicator">{urgency}</div>
+			<Box
+				className="urgency-indicator"
+				bg={`var(--${getUrgencyColor(urgency)})`}
+			>
+				{urgency}
+			</Box>
 			<Button
 				leftIcon={<DeleteIcon />}
 				bg="brand.navy"
