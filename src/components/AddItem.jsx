@@ -53,6 +53,7 @@ export function AddItem({ listToken, data }) {
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
 		// Check for empty fields
 		if (isEmptyName || isEmptyDays || trimmedItem === '') {
 			setIsNotAdded(true);
@@ -132,20 +133,18 @@ export function AddItem({ listToken, data }) {
 					<ModalCloseButton />
 					<ModalBody>
 						<form id="addItemForm" onSubmit={handleSubmit}>
-							<FormControl isInvalid={isEmptyName}>
+							<FormControl>
 								<FormLabel fontWeight="bold">Item name:</FormLabel>
 								<Input
 									type="text"
 									id="itemName"
 									onChange={handleItemNameChange}
 									value={itemName}
+									borderColor="brand.navy"
 								/>
-								{isEmptyName && (
-									<FormErrorMessage>Item name is required.</FormErrorMessage>
-								)}
 							</FormControl>
 							<br />
-							<FormControl isInvalid={isEmptyDays}>
+							<FormControl>
 								<FormLabel fontWeight="bold">
 									How soon will you buy this again?
 								</FormLabel>
@@ -153,14 +152,12 @@ export function AddItem({ listToken, data }) {
 									placeholder="Choose one"
 									onChange={handleDaysChange}
 									value={days}
+									borderColor="brand.navy"
 								>
 									<option value="7">Soon</option>
 									<option value="14">Kind of Soon</option>
 									<option value="30">Not Soon</option>
 								</Select>
-								{isEmptyDays && (
-									<FormErrorMessage>A selection is required.</FormErrorMessage>
-								)}
 							</FormControl>
 						</form>
 					</ModalBody>
@@ -173,6 +170,7 @@ export function AddItem({ listToken, data }) {
 							onClick={onClose}
 							bg="brand.navy"
 							color="brand.off_white"
+							_hover={{ bg: 'grey' }}
 						>
 							Add Item
 						</Button>
