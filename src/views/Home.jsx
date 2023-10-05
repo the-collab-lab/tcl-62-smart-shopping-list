@@ -64,6 +64,7 @@ export function Home({ createNewToken, setListToken }) {
 					color="brand.navy"
 					p={4}
 					mb={8}
+					textAlign="center"
 				>
 					Say hello to stress-free shopping and welcome what truly matters.
 				</Text>
