@@ -2,9 +2,10 @@
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import {
 	Flex,
+	Box,
 	Center,
-	Heading,
 	Image,
+	Heading,
 	Link,
 	Tabs,
 	TabList,
@@ -12,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 
 // LOCAL IMPORTS
-import logo from '../images/PredictaCartLogoAltColor.png';
+import logo from '../images/PredictaCartLogo.png';
 
 export function Layout() {
 	const location = useLocation();
@@ -45,7 +46,7 @@ export function Layout() {
 					<Image src={logo} alt="PredictaCart Logo" h="60px" />
 				</Link>
 				{isHomePage && (
-					<Center as="header" bg="brand.off_white" p={5} boxShadow="md">
+					<Center as="header" bg="brand.off_white" p={5} boxShadow="md" w={['100%', '50%']}>
 						<Heading
 							as="h1"
 							size={isHomePage ? '4xl' : 'xl'}
@@ -56,7 +57,7 @@ export function Layout() {
 					</Center>
 				)}
 				{isHomePage ? null : (
-					<Center as="nav" p={4} bg="brand.yellow" boxShadow="md">
+					<Center as="nav" p={4} bg="brand.yellow" boxShadow="md" w={['100%', '50%']}>
 						<Tabs
 							variant="soft-rounded"
 							size="lg"
@@ -65,17 +66,23 @@ export function Layout() {
 							index={tabIndex}
 						>
 							<TabList w="100%">
-								<Tab>
+								<Tab 								flex="1"
+								fontSize="xl"
+								_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}>
 									<Link as={NavLink} to="/">
 										Home
 									</Link>
 								</Tab>
-								<Tab>
+								<Tab 								flex="1"
+								fontSize="xl"
+								_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}>
 									<Link as={NavLink} to="/list">
 										List
 									</Link>
 								</Tab>
-								<Tab>
+								<Tab 								flex="1"
+								fontSize="xl"
+								_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}>
 									<Link as={NavLink} to="/add-item">
 										Add Item
 									</Link>
@@ -84,6 +91,9 @@ export function Layout() {
 						</Tabs>
 					</Center>
 				)}
+			</Flex>
+
+				<Box />
 			</Flex>
 
 			<Flex as="main" flex="1" direction="column">
