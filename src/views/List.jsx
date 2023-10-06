@@ -1,20 +1,17 @@
 // LIBRARY IMPORTS
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AddIcon } from '@chakra-ui/icons';
 
 // LOCAL IMPORTS
 import { ListItem } from '../components';
 import { AddItem } from '../components/AddItem.jsx';
 import { comparePurchaseUrgency } from '../api/firebase.js';
 
-export function List({ data, listToken }) {
+export function List({ data, listToken, onOpen, isOpen, onClose }) {
 	// state for input
 	const [input, setInput] = useState('');
 	const [searchData, setSearchData] = useState(data);
 	const [isValid, setIsValid] = useState(false);
 	const [searchLength, setSearchLength] = useState(1);
-	const navigate = useNavigate();
 
 	// Handle events
 	const handleInputChange = (e) => {
@@ -22,9 +19,6 @@ export function List({ data, listToken }) {
 	};
 	const handleInputClear = () => {
 		setInput('');
-	};
-	const handleClick = () => {
-		navigate('/add-item');
 	};
 
 	useEffect(() => {
@@ -60,6 +54,13 @@ export function List({ data, listToken }) {
 				</div>
 			) : (
 				<div>
+					<AddItem
+						listToken={listToken}
+						data={data}
+						isOpen={isOpen}
+						onClose={onClose}
+						onOpen={onOpen}
+					/>
 					<form>
 						Search for your item:
 						<input
@@ -87,7 +88,6 @@ export function List({ data, listToken }) {
 										/>
 									))}
 							</ul>
-							<AddItem listToken={listToken} data={data} />
 						</>
 					) : (
 						<h2>no matches</h2>

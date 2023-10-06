@@ -2,7 +2,6 @@
 import { Outlet, NavLink } from 'react-router-dom';
 import {
 	Flex,
-	Box,
 	Center,
 	Image,
 	Link,
@@ -13,8 +12,9 @@ import {
 
 // LOCAL IMPORTS
 import logo from '../images/PredictaCartLogo.png';
+import { AddItem } from '../components/AddItem.jsx';
 
-export function Layout() {
+export function Layout({ data, onOpen, isOpen, onClose }) {
 	return (
 		<Flex direction="column" h="100vh">
 			<Flex
@@ -42,16 +42,23 @@ export function Layout() {
 									List
 								</Link>
 							</Tab>
-							<Tab _selected={{ color: 'brand.navy', bg: 'brand.light_green' }}>
-								<Link as={NavLink} to="/add-item">
-									Add Item
-								</Link>
+							<Tab
+								_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
+								onClick={onOpen}
+							>
+								Add Item
 							</Tab>
 						</TabList>
 					</Tabs>
 				</Center>
-
-				<Box />
+				<AddItem
+					isOpen={isOpen}
+					onClose={onClose}
+					onOpen={onOpen}
+					data={data}
+					hideButton={true}
+				/>
+				<Flex />
 			</Flex>
 
 			<Flex as="main" flex="1" direction="column">
