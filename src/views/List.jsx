@@ -60,6 +60,7 @@ export function List({ data, listToken }) {
 				</div>
 			) : (
 				<div>
+					<AddItem listToken={listToken} data={data} />
 					<form>
 						Search for your item:
 						<input
@@ -87,7 +88,6 @@ export function List({ data, listToken }) {
 										/>
 									))}
 							</ul>
-							<AddItem listToken={listToken} data={data} />
 						</>
 					) : (
 						<h2>no matches</h2>
