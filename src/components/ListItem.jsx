@@ -1,6 +1,13 @@
 // LIBRARY IMPORTS
 import React, { useState } from 'react';
-import { Button, Box } from '@chakra-ui/react';
+import {
+	Button,
+	Box,
+	Checkbox,
+	Flex,
+	Spacer,
+	StackDivider,
+} from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 
 // LOCAL IMPORTS
@@ -93,29 +100,37 @@ export function ListItem({
 	};
 
 	return (
-		<li className="ListItem">
-			<input
-				type="checkbox"
-				id={name}
-				name={name}
-				checked={isChecked}
-				onChange={handleCheck}
-			/>
-			<label htmlFor={name}> {name} </label>
-			<Box
-				className="urgency-indicator"
-				bg={`var(--${getUrgencyColor(urgency)})`}
-			>
-				{urgency}
-			</Box>
-			<Button
-				leftIcon={<DeleteIcon />}
-				bg="brand.navy"
-				color="brand.off_white"
-				onClick={handleDelete}
-			>
-				Delete
-			</Button>
-		</li>
+		<Flex direction="row">
+			<li className="ListItem">
+				<Checkbox
+					colorScheme="green"
+					bg="white"
+					borderColor="brand.navy"
+					size="lg"
+					spacing={5}
+					direction="row"
+					id={name}
+					name={name}
+					checked={isChecked}
+					onChange={handleCheck}
+				></Checkbox>
+				<Spacer />
+				<label htmlFor={name}> {name} </label>
+				<Box
+					className="urgency-indicator"
+					bg={`var(--${getUrgencyColor(urgency)})`}
+				>
+					{urgency}
+				</Box>
+				<Button
+					leftIcon={<DeleteIcon />}
+					bg="brand.navy"
+					color="brand.off_white"
+					onClick={handleDelete}
+				>
+					Delete
+				</Button>
+			</li>
+		</Flex>
 	);
 }

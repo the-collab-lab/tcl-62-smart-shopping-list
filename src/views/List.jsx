@@ -6,13 +6,13 @@ import {
 	Flex,
 	Spacer,
 	Center,
-	Stack,
 	VStack,
 	Button,
 	Input,
 	FormControl,
 	Box,
 	IconButton,
+	StackDivider,
 } from '@chakra-ui/react';
 import { Search2Icon, CloseIcon } from '@chakra-ui/icons';
 
@@ -73,7 +73,12 @@ export function List({ data, listToken }) {
 					</Center>
 				</VStack>
 			) : (
-				<VStack marginLeft="5rem">
+				<VStack
+					marginLeft="5rem"
+					divider={<StackDivider borderColor="gray.200" />}
+					spacing={4}
+					align="stretch"
+				>
 					<FormControl>
 						<Box
 							w="75%"
