@@ -1,10 +1,11 @@
 // LIBRARY IMPORTS
-import { Outlet, NavLink } from 'react-router-dom';
+import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import {
 	Flex,
 	Box,
 	Center,
 	Image,
+	Heading,
 	Link,
 	Tabs,
 	TabList,
@@ -15,6 +16,23 @@ import {
 import logo from '../images/PredictaCartLogo.png';
 
 export function Layout() {
+	const location = useLocation();
+	const isHomePage = location.pathname === '/';
+	let tabIndex;
+	switch (location.pathname) {
+		case '/':
+			tabIndex = 0;
+			break;
+		case '/list':
+			tabIndex = 1;
+			break;
+		case '/add-item':
+			tabIndex = 2;
+			break;
+		default:
+			tabIndex = 0;
+	}
+
 	return (
 		<Flex direction="column" h="100vh">
 			<Flex
@@ -24,7 +42,6 @@ export function Layout() {
 				p={4}
 				bgGradient="linear(to-r, #A1c181, #Fcca46, #fe7f2d)"
 			>
-				{/* Logo that navigates to the home page */}
 				<Link as={NavLink} to="/">
 					<Image src={logo} alt="PredictaCart Logo" h="60px" />
 				</Link>
@@ -45,7 +62,8 @@ export function Layout() {
 						</TabList>
 					</Tabs>
 				</Center>
-
+			</Flex>
+			<Flex>
 				<Box />
 			</Flex>
 
