@@ -42,11 +42,6 @@ export function Layout() {
 									List
 								</Link>
 							</Tab>
-							<Tab _selected={{ color: 'brand.navy', bg: 'brand.light_green' }}>
-								<Link as={NavLink} to="/add-item">
-									Add Item
-								</Link>
-							</Tab>
 						</TabList>
 					</Tabs>
 				</Center>
