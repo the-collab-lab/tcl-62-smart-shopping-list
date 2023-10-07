@@ -8,6 +8,7 @@ import {
 	GridItem,
 	Text,
 	Flex,
+	Spacer,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 
@@ -100,52 +101,48 @@ export function ListItem({
 	};
 
 	return (
-		<Grid
-			templateColumns="repeat(4, 1fr)"
-			templateRows="repeat(2, 1fr)"
-			gap={10}
-			border="1px solid #ccc"
-			display="flex"
+		<Flex
+			direction="row"
 			alignItems="center"
-			justifyContent="flex-start"
-			padding="0.2rem 0.5rem"
+			borderBottom="1px solid #ccc"
+			padding="0.5rem"
 		>
-			<GridItem display="flex">
-				<Checkbox
-					colorScheme="green"
-					bg="white"
-					borderColor="brand.navy"
-					size="lg"
-					id={name}
-					name={name}
-					checked={isChecked}
-					onChange={handleCheck}
-				></Checkbox>
-			</GridItem>
-			<GridItem>
-				<Text htmlFor={name}> {name} </Text>
-			</GridItem>
-			<GridItem>
-				<Box
-					bg={getUrgencyColor(urgency)}
-					width="fit-content"
-					height="fit-content"
-					padding="0.2rem 0.5rem"
-					borderRadius="8px"
-				>
-					{urgency}
-				</Box>
-			</GridItem>
-			<GridItem display="flex">
-				<Button
-					leftIcon={<DeleteIcon />}
-					bg="brand.navy"
-					color="brand.off_white"
-					onClick={handleDelete}
-				>
-					Delete
-				</Button>
-			</GridItem>
-		</Grid>
+			<Checkbox
+				colorScheme="green"
+				bg="white"
+				borderColor="brand.navy"
+				size="lg"
+				id={name}
+				name={name}
+				checked={isChecked}
+				onChange={handleCheck}
+			/>
+
+			<Text htmlFor={name} flex=".5" ml="1rem" fontWeight="bold">
+				{name}
+			</Text>
+
+			<Box
+				bg={getUrgencyColor(urgency)}
+				width="fit-context"
+				height="fit-content"
+				padding="0.2rem 0.5rem"
+				borderRadius="8px"
+				textAlign="left"
+				// flex=".17"
+				ml="1rem"
+			>
+				{urgency}
+			</Box>
+			<Button
+				leftIcon={<DeleteIcon />}
+				bg="brand.navy"
+				color="brand.off_white"
+				onClick={handleDelete}
+				ml="auto"
+			>
+				Delete
+			</Button>
+		</Flex>
 	);
 }
