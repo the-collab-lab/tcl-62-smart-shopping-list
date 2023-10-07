@@ -1,10 +1,23 @@
 // LIBRARY IMPORTS
 import React, { useState } from 'react';
+import {
+	Button,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalBody,
+	ModalCloseButton,
+	useDisclosure,
+} from '@chakra-ui/react';
 
 //LOCAL IMPORTS
 import { addItem } from '../api/firebase.js';
 
 export function AddItem({ listToken, data }) {
+	const { isOpen, onOpen, onClose } = useDisclosure();
+
 	// SET STATES
 	const [itemName, setItemName] = useState('');
 	const [days, setDays] = useState(7);
@@ -67,29 +80,45 @@ export function AddItem({ listToken, data }) {
 
 	return (
 		<div>
-			<form onSubmit={handleSubmit}>
-				<label htmlFor="itemName">
-					Item name:
-					<input
-						type="text"
-						id="itemName"
-						onChange={handleItemNameChange}
-						value={itemName}
-					/>
-				</label>
-				<br />
-				<label>
-					How soon will you buy this again?
-					<select onChange={handleDaysChange} value={days}>
-						<option value="7">Soon</option>
-						<option value="14">Kind of Soon</option>
-						<option value="30">Not Soon</option>
-					</select>
-				</label>
-				<br />
+			<Button onClick={onOpen}>Add Item</Button>
+			<Modal isOpen={isOpen} onClose={onClose}>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>Add an item to your list</ModalHeader>
+					<ModalCloseButton />
+					<ModalBody>
+						<form onSubmit={handleSubmit}>
+							<label htmlFor="itemName">
+								Item name:
+								<input
+									type="text"
+									id="itemName"
+									onChange={handleItemNameChange}
+									value={itemName}
+								/>
+							</label>
+							<br />
+							<label>
+								How soon will you buy this again?
+								<select onChange={handleDaysChange} value={days}>
+									<option value="7">Soon</option>
+									<option value="14">Kind of Soon</option>
+									<option value="30">Not Soon</option>
+								</select>
+							</label>
+							<br />
 
-				<button>Submit</button>
-			</form>
+							<button>Submit</button>
+						</form>
+					</ModalBody>
+
+					<ModalFooter>
+						<Button colorScheme="blue" mr={3} onClick={onClose}>
+							Close
+						</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
 			{status && <p>{status}</p>}
 		</div>
 	);

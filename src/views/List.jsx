@@ -1,6 +1,11 @@
+// LIBRARY IMPORTS
 import { useState, useEffect } from 'react';
-import { ListItem } from '../components';
 import { useNavigate } from 'react-router-dom';
+import { AddIcon } from '@chakra-ui/icons';
+
+// LOCAL IMPORTS
+import { ListItem } from '../components';
+import { AddItem } from '../components/AddItem.jsx';
 import { comparePurchaseUrgency } from '../api/firebase.js';
 
 export function List({ data, listToken }) {
@@ -51,11 +56,11 @@ export function List({ data, listToken }) {
 				<div>
 					<h2>Your list is empty. Get started by adding an item.</h2>
 					<p>To add an item to your list, tap the Add Item button below.</p>
-
-					<button onClick={handleClick}> + Add Item </button>
+					<AddItem listToken={listToken} data={data} />
 				</div>
 			) : (
 				<div>
+					<AddItem listToken={listToken} data={data} />
 					<form>
 						Search for your item:
 						<input
@@ -67,21 +72,23 @@ export function List({ data, listToken }) {
 						{input.length > 0 && <button onClick={handleInputClear}>x</button>}
 					</form>
 					{isValid ? (
-						<ul>
-							{searchData &&
-								searchData.map((item) => (
-									<ListItem
-										key={item.id}
-										name={item.name}
-										itemId={item.id}
-										dateCreated={item.dateCreated}
-										dateLastPurchased={item.dateLastPurchased}
-										dateNextPurchased={item.dateNextPurchased}
-										totalPurchases={item.totalPurchases}
-										listToken={listToken}
-									/>
-								))}
-						</ul>
+						<>
+							<ul>
+								{searchData &&
+									searchData.map((item) => (
+										<ListItem
+											key={item.id}
+											name={item.name}
+											itemId={item.id}
+											dateCreated={item.dateCreated}
+											dateLastPurchased={item.dateLastPurchased}
+											dateNextPurchased={item.dateNextPurchased}
+											totalPurchases={item.totalPurchases}
+											listToken={listToken}
+										/>
+									))}
+							</ul>
+						</>
 					) : (
 						<h2>no matches</h2>
 					)}

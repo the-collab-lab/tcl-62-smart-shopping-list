@@ -45,72 +45,24 @@ export function Layout() {
 				<Link as={NavLink} to="/">
 					<Image src={logo} alt="PredictaCart Logo" h="60px" />
 				</Link>
-				{isHomePage && (
-					<Center
-						as="header"
-						bg="brand.off_white"
-						p={5}
-						boxShadow="md"
-						w={['100%', '50%']}
-					>
-						<Heading
-							as="h1"
-							size={isHomePage ? '4xl' : 'xl'}
-							color="brand.navy"
-						>
-							PredictaCart
-						</Heading>
-					</Center>
-				)}
-				{isHomePage ? null : (
-					<Center
-						as="nav"
-						p={4}
-						bg="brand.yellow"
-						boxShadow="md"
-						w={['100%', '50%']}
-					>
-						<Tabs
-							variant="soft-rounded"
-							size="lg"
-							w="100%"
-							direction={['column', 'row']}
-							index={tabIndex}
-						>
-							<TabList w="100%">
-								<Tab
-									flex="1"
-									fontSize="xl"
-									_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
-								>
-									<Link as={NavLink} to="/">
-										Home
-									</Link>
-								</Tab>
-								<Tab
-									flex="1"
-									fontSize="xl"
-									_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
-								>
-									<Link as={NavLink} to="/list">
-										List
-									</Link>
-								</Tab>
-								<Tab
-									flex="1"
-									fontSize="xl"
-									_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
-								>
-									<Link as={NavLink} to="/add-item">
-										Add Item
-									</Link>
-								</Tab>
-							</TabList>
-						</Tabs>
-					</Center>
-				)}
-			</Flex>
 
+				<Center>
+					<Tabs variant="soft-rounded" size="lg">
+						<TabList>
+							<Tab _selected={{ color: 'brand.navy', bg: 'brand.light_green' }}>
+								<Link as={NavLink} to="/">
+									Home
+								</Link>
+							</Tab>
+							<Tab _selected={{ color: 'brand.navy', bg: 'brand.light_green' }}>
+								<Link as={NavLink} to="/list">
+									List
+								</Link>
+							</Tab>
+						</TabList>
+					</Tabs>
+				</Center>
+			</Flex>
 			<Flex>
 				<Box />
 			</Flex>

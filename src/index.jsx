@@ -13,7 +13,8 @@ import { Fonts } from './Fonts';
 const theme = extendTheme({
 	colors: {
 		brand: {
-			off_white: '#FAF0CA',
+			off_white: '#fdf9e9',
+			cream: '#FAF0CA',
 			navy: '#233D4D',
 			yellow: '#FCCA46',
 			orange: '#FE7F2D',
