@@ -4,14 +4,14 @@ import {
 	Button,
 	Box,
 	Checkbox,
+	Grid,
+	GridItem,
+	Text,
 	Flex,
-	Spacer,
-	StackDivider,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 
 // LOCAL IMPORTS
-import './ListItem.css';
 import { getDaysBetweenDates } from '../utils/dates.js';
 import { updateItem, deleteItem } from '../api/firebase.js';
 
@@ -65,13 +65,13 @@ export function ListItem({
 	const getUrgencyColor = (urgency) => {
 		switch (urgency) {
 			case 'Inactive':
-				return 'urgency-inactive-color';
+				return 'brand.off_white';
 			case 'Soon':
-				return 'urgency-soon-color';
+				return 'brand.cherry_red';
 			case 'Kind of soon':
-				return 'urgency-kind-of-soon-color';
+				return 'brand.orange';
 			default:
-				return 'urgency-not-soon-color';
+				return 'brand.yellow';
 		}
 	};
 
@@ -100,28 +100,43 @@ export function ListItem({
 	};
 
 	return (
-		<Flex direction="row">
-			<li className="ListItem">
+		<Grid
+			templateColumns="repeat(4, 1fr)"
+			templateRows="repeat(2, 1fr)"
+			gap={10}
+			border="1px solid #ccc"
+			display="flex"
+			alignItems="center"
+			justifyContent="flex-start"
+			padding="0.2rem 0.5rem"
+		>
+			<GridItem display="flex">
 				<Checkbox
 					colorScheme="green"
 					bg="white"
 					borderColor="brand.navy"
 					size="lg"
-					spacing={5}
-					direction="row"
 					id={name}
 					name={name}
 					checked={isChecked}
 					onChange={handleCheck}
 				></Checkbox>
-				<Spacer />
-				<label htmlFor={name}> {name} </label>
+			</GridItem>
+			<GridItem>
+				<Text htmlFor={name}> {name} </Text>
+			</GridItem>
+			<GridItem>
 				<Box
-					className="urgency-indicator"
-					bg={`var(--${getUrgencyColor(urgency)})`}
+					bg={getUrgencyColor(urgency)}
+					width="fit-content"
+					height="fit-content"
+					padding="0.2rem 0.5rem"
+					borderRadius="8px"
 				>
 					{urgency}
 				</Box>
+			</GridItem>
+			<GridItem display="flex">
 				<Button
 					leftIcon={<DeleteIcon />}
 					bg="brand.navy"
@@ -130,7 +145,7 @@ export function ListItem({
 				>
 					Delete
 				</Button>
-			</li>
-		</Flex>
+			</GridItem>
+		</Grid>
 	);
 }
