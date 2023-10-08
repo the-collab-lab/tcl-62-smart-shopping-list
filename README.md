@@ -5,6 +5,7 @@ PredictaCart is a “smart” shopping list app that learns your buying habits a
 ## Technology & Tools
 
 ### Primary
+
 <div>
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
   <img src='https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E' />
@@ -36,12 +37,16 @@ PredictaCart is a “smart” shopping list app that learns your buying habits a
 1. **Clone the repo**:
    ```bash
    git clone https://github.com/the-collab-lab/tcl-62-smart-shopping-list.git
+   ```
 2. Navigate to the project directory:
    ```bash
    cd tcl-62-smart-shopping-list
+   ```
 3. Install the dependencies:
-   ``` bash
+   ```bash
    npm install
+   ```
 4. Start the development server:
-   ``` bash
+   ```bash
    npm start
+   ```

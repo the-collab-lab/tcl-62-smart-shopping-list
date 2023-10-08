@@ -1,6 +1,11 @@
+// LIBRARY IMPORTS
 import { useState, useEffect } from 'react';
-import { ListItem } from '../components';
 import { useNavigate } from 'react-router-dom';
+import { AddIcon } from '@chakra-ui/icons';
+
+// LOCAL IMPORTS
+import { ListItem } from '../components';
+import { AddItem } from '../components/AddItem.jsx';
 import { comparePurchaseUrgency } from '../api/firebase.js';
 import {
 	Flex,
@@ -61,6 +66,7 @@ export function List({ data, listToken }) {
 	return (
 		<Flex as="div" direction="column" flex="1">
 			{data && data.length === 0 ? (
+
 				<VStack>
 					<Center>
 						<h2>Your list is empty. Get started by adding an item.</h2>
@@ -136,6 +142,7 @@ export function List({ data, listToken }) {
 					</Box>
 					<Spacer />
 				</VStack>
+
 			)}
 		</Flex>
 	);
