@@ -1,15 +1,6 @@
 // LIBRARY IMPORTS
 import React, { useState } from 'react';
-import {
-	Button,
-	Box,
-	Checkbox,
-	Grid,
-	GridItem,
-	Text,
-	Flex,
-	Spacer,
-} from '@chakra-ui/react';
+import { Button, Box, Checkbox, Text, Flex } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 
 // LOCAL IMPORTS

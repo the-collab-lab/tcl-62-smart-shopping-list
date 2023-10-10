@@ -6,7 +6,6 @@ import {
 	AlertIcon,
 	Divider,
 	Flex,
-	Image,
 	Button,
 	Text,
 	Box,
