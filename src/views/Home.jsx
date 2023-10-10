@@ -1,7 +1,19 @@
 // LIBRARY IMPORTS
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
-import { Flex, Spacer, Button } from '@chakra-ui/react';
+import {
+	Alert,
+	AlertIcon,
+	Divider,
+	Flex,
+	Image,
+	Button,
+	Text,
+	Box,
+	FormControl,
+	FormLabel,
+	Input,
+} from '@chakra-ui/react';
 
 // LOCAL IMPORTS
 import { getExistingList } from '../api/firebase';
@@ -46,25 +58,102 @@ export function Home({ createNewToken, setListToken }) {
 			minHeight="calc(100vh - headerHeight - navHeight)"
 			flex="1"
 		>
-			<p>Welcome to PredictaCart, your smart shopping list!</p>
-			<Spacer />
-			<form onSubmit={handleSubmit}>
-				<label htmlFor="existingToken">
-					Which list would you like to join?
-				</label>
-				<br />
-				<input
-					type="text"
-					id="existingToken"
-					onChange={handleTokenChange}
-					value={existingToken}
-					placeholder="Enter name of existing list"
-				/>
-				<Button type="submit">Submit</Button>
-			</form>
-			{status && <p>{status}</p>}
-			<Spacer />
-			<Button onClick={handleClick}> Create a new list </Button>
+			<Box p={6} display="flex" flexDirection="column" alignItems="center">
+				<Text
+					fontSize={{ base: '2xl', md: '3xl', lg: '4xl', xl: '5xl' }}
+					fontWeight="bold"
+					color="brand.navy"
+					p={4}
+					mb={8}
+					textAlign="center"
+				>
+					Say hello to stress-free shopping and welcome what truly matters.
+				</Text>
+			</Box>
+			<Flex direction="row" justify="center" align="center" gap={6} p={6}>
+				<Button
+					bg="brand.yellow"
+					textColor="brand.navy"
+					onClick={handleClick}
+					fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
+					size="xl"
+					_hover={{
+						bg: 'brand.orange',
+						textColor: 'brand.off_white',
+					}}
+					mt={6}
+					mb={6}
+					p={4}
+					borderRadius="md" // Add a rounded border for better accessibility.
+					aria-label="Click me to create a new list" // Add an aria-label for screen readers.
+				>
+					Create a new list
+				</Button>
+			</Flex>
+			<FormControl>
+				<form onSubmit={handleSubmit}>
+					<Flex
+						bg="brand.light_green"
+						direction="column"
+						justify="center"
+						align="center"
+						gap={2}
+						pt={4}
+					>
+						<Divider orientation="horizontal" />
+						<FormLabel
+							htmlFor="existingToken"
+							fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
+							size="xl"
+						>
+							Join an existing list!
+						</FormLabel>
+						<Flex
+							direction="column" // You can keep this as 'column' for vertical alignment
+							maxWidth="400px" // Limit the input's width
+						>
+							<Input
+								type="text"
+								id="existingToken"
+								onChange={handleTokenChange}
+								value={existingToken}
+								placeholder=" Enter list name to join"
+								variant="outline"
+								borderColor="brand.yellow"
+								borderRadius="md"
+								aria-label="Enter list name to join" // ARIA label for the input field
+							/>
+						</Flex>
+
+						<Button
+							type="submit"
+							bg="brand.yellow"
+							textColor="brand.navy"
+							onChange={handleTokenChange}
+							fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
+							size="xl"
+							_hover={{
+								bg: 'brand.orange',
+								textColor: 'brand.off_white',
+							}}
+							mt={6}
+							mb={6}
+							p={4}
+							borderRadius="md"
+							aria-label="Click me to join an existing list"
+						>
+							Submit
+						</Button>
+					</Flex>
+				</form>
+
+				{status && (
+					<Alert status="error">
+						{' '}
+						<AlertIcon /> {status}
+					</Alert>
+				)}
+			</FormControl>
 		</Flex>
 	);
 }

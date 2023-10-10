@@ -1,10 +1,18 @@
 // LIBRARY IMPORTS
 import React, { useState } from 'react';
-import { Button } from '@chakra-ui/react';
+import {
+	Button,
+	Box,
+	Checkbox,
+	Grid,
+	GridItem,
+	Text,
+	Flex,
+	Spacer,
+} from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 
 // LOCAL IMPORTS
-import './ListItem.css';
 import { getDaysBetweenDates } from '../utils/dates.js';
 import { updateItem, deleteItem } from '../api/firebase.js';
 
@@ -55,6 +63,19 @@ export function ListItem({
 
 	const urgency = getUrgency(dateLastPurchased, dateNextPurchased);
 
+	const getUrgencyColor = (urgency) => {
+		switch (urgency) {
+			case 'Inactive':
+				return 'brand.off_white';
+			case 'Soon':
+				return 'brand.cherry_red';
+			case 'Kind of soon':
+				return 'brand.orange';
+			default:
+				return 'brand.yellow';
+		}
+	};
+
 	// EVENT HANDLER
 	const handleCheck = () => {
 		if (!isChecked) {
@@ -80,24 +101,48 @@ export function ListItem({
 	};
 
 	return (
-		<li className="ListItem">
-			<input
-				type="checkbox"
+		<Flex
+			direction="row"
+			alignItems="center"
+			borderBottom="1px solid #ccc"
+			padding="0.5rem"
+		>
+			<Checkbox
+				colorScheme="green"
+				bg="white"
+				borderColor="brand.navy"
+				size="lg"
 				id={name}
 				name={name}
 				checked={isChecked}
 				onChange={handleCheck}
 			/>
-			<label htmlFor={name}> {name} </label>
-			<div className="urgency-indicator">{urgency}</div>
+
+			<Text htmlFor={name} flex=".5" ml="1rem" fontWeight="bold">
+				{name}
+			</Text>
+
+			<Box
+				bg={getUrgencyColor(urgency)}
+				width="fit-context"
+				height="fit-content"
+				padding="0.2rem 0.5rem"
+				borderRadius="8px"
+				textAlign="left"
+				// flex=".17"
+				ml="1rem"
+			>
+				{urgency}
+			</Box>
 			<Button
 				leftIcon={<DeleteIcon />}
 				bg="brand.navy"
 				color="brand.off_white"
 				onClick={handleDelete}
+				ml="auto"
 			>
 				Delete
 			</Button>
-		</li>
+		</Flex>
 	);
 }
