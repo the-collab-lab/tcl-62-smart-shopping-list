@@ -66,7 +66,6 @@ export function List({ data, listToken }) {
 	return (
 		<Flex as="div" direction="column" flex="1">
 			{data && data.length === 0 ? (
-
 				<VStack>
 					<Center>
 						<h2>Your list is empty. Get started by adding an item.</h2>
@@ -75,7 +74,7 @@ export function List({ data, listToken }) {
 						<p>To add an item to your list, tap the Add Item button below.</p>
 					</Center>
 					<Center>
-						<Button onClick={handleClick}> + Add Item </Button>
+						<AddItem listToken={listToken} data={data} />
 					</Center>
 				</VStack>
 			) : (
@@ -85,6 +84,7 @@ export function List({ data, listToken }) {
 					spacing={4}
 					align="stretch"
 				>
+					<AddItem listToken={listToken} data={data} />
 					<FormControl>
 						<Box
 							w="75%"
@@ -142,7 +142,6 @@ export function List({ data, listToken }) {
 					</Box>
 					<Spacer />
 				</VStack>
-
 			)}
 		</Flex>
 	);
