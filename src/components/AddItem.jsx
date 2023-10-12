@@ -88,8 +88,9 @@ export function AddItem({ listToken, data }) {
 		<div>
 			<Button
 				leftIcon={<AddIcon />}
-				bg="brand.off_white"
-				color="brand.navy"
+				size="lg"
+				bg="brand.dark_green"
+				color="brand.off_white"
 				onClick={() => {
 					setIsAdded(false);
 					setIsNotAdded(false);
