@@ -64,7 +64,7 @@ export function List({ data, listToken }) {
 	}, [searchData, data.length]);
 
 	return (
-		<Flex as="div" direction="column" flex="1">
+		<Flex as="div" direction="column" align="center">
 			{data && data.length === 0 ? (
 				<VStack>
 					<Center>
@@ -78,12 +78,7 @@ export function List({ data, listToken }) {
 					</Center>
 				</VStack>
 			) : (
-				<VStack
-					marginLeft="5rem"
-					divider={<StackDivider borderColor="gray.200" />}
-					spacing={4}
-					align="stretch"
-				>
+				<VStack marginLeft="5rem" spacing={4} align="stretch">
 					<AddItem listToken={listToken} data={data} />
 					<FormControl>
 						<Box
