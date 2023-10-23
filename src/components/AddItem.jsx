@@ -16,16 +16,20 @@ import {
 	ModalBody,
 	ModalCloseButton,
 	Select,
-	useDisclosure,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 
 //LOCAL IMPORTS
 import { addItem } from '../api/firebase.js';
 
-export function AddItem({ listToken, data }) {
-	const { isOpen, onOpen, onClose } = useDisclosure();
-
+export function AddItem({
+	listToken,
+	data,
+	isOpen,
+	onOpen,
+	onClose,
+	hideButton = false,
+}) {
 	// SET STATES
 	const [itemName, setItemName] = useState('');
 	const [days, setDays] = useState(0);
@@ -86,19 +90,21 @@ export function AddItem({ listToken, data }) {
 
 	return (
 		<div>
-			<Button
-				leftIcon={<AddIcon />}
-				bg="brand.off_white"
-				color="brand.navy"
-				onClick={() => {
-					setIsAdded(false);
-					setIsNotAdded(false);
-					setIsAlreadyAdded(false);
-					onOpen();
-				}}
-			>
-				Add Item
-			</Button>
+			{!hideButton && (
+				<Button
+					leftIcon={<AddIcon />}
+					bg="brand.off_white"
+					color="brand.navy"
+					onClick={() => {
+						setIsAdded(false);
+						setIsNotAdded(false);
+						setIsAlreadyAdded(false);
+						onOpen();
+					}}
+				>
+					Add Item
+				</Button>
+			)}
 
 			{/* Alert that displays when item is added */}
 			{isAdded && (

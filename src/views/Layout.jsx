@@ -2,7 +2,6 @@
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import {
 	Flex,
-	Box,
 	Center,
 	Image,
 	Heading,
@@ -14,8 +13,9 @@ import {
 
 // LOCAL IMPORTS
 import logo from '../images/PredictaCartLogo.png';
+import { AddItem } from '../components/AddItem.jsx';
 
-export function Layout() {
+export function Layout({ data, onOpen, isOpen, onClose }) {
 	const location = useLocation();
 	const isHomePage = location.pathname === '/';
 	let tabIndex;
@@ -64,49 +64,49 @@ export function Layout() {
 					</Center>
 				)}
 				{isHomePage ? null : (
-					<Center
-						as="nav"
-						p={4}
-						bg="brand.yellow"
-						boxShadow="md"
-						w={['100%', '50%']}
-					>
-						<Tabs
-							variant="soft-rounded"
-							size="lg"
-							w="100%"
-							direction={['column', 'row']}
-							index={tabIndex}
+					<>
+						<Center
+							as="nav"
+							p={4}
+							bg="brand.yellow"
+							boxShadow="md"
+							w={['100%', '50%']}
 						>
-							<TabList w="100%">
-								<Tab
-									flex="1"
-									fontSize="xl"
-									_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
-								>
-									<Link as={NavLink} to="/">
-										Home
-									</Link>
-								</Tab>
-								<Tab
-									flex="1"
-									fontSize="xl"
-									_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
-								>
-									<Link as={NavLink} to="/list">
-										List
-									</Link>
-								</Tab>
-							</TabList>
-						</Tabs>
-					</Center>
+							<Tabs variant="soft-rounded" size="lg">
+								<TabList>
+									<Tab
+										_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
+									>
+										<Link as={NavLink} to="/">
+											Home
+										</Link>
+									</Tab>
+									<Tab
+										_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
+									>
+										<Link as={NavLink} to="/list">
+											List
+										</Link>
+									</Tab>
+									<Tab
+										_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
+										onClick={onOpen}
+									>
+										Add Item
+									</Tab>
+								</TabList>
+							</Tabs>
+						</Center>
+						<AddItem
+							isOpen={isOpen}
+							onClose={onClose}
+							onOpen={onOpen}
+							data={data}
+							hideButton={true}
+						/>
+					</>
 				)}
 			</Flex>
-
-			<Flex>
-				<Box />
-			</Flex>
-
 			<Flex as="main" flex="1" direction="column">
 				<Outlet />
 			</Flex>
