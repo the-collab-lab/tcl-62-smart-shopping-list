@@ -55,13 +55,18 @@ export function Home({ createNewToken, setListToken, listToken }) {
 		<Flex
 			bg="brand.off_white"
 			direction="column"
-			justifyContent="center"
 			minHeight="calc(100vh - headerHeight - navHeight)"
 			flex="1"
 		>
-			<Box p={3} display="flex" flexDirection="column" alignItems="center">
+			<Box
+				p={3}
+				display="flex"
+				flexDirection="column"
+				alignItems="center"
+				mb={4}
+			>
 				<Text
-					fontSize={{ base: 'xl', md: '2xl', lg: '3xl', xl: '4xl' }}
+					fontSize={{ base: 'lg', md: 'xl', lg: '2xl', xl: '3xl' }}
 					fontWeight="bold"
 					color="brand.navy"
 					p={2}
@@ -71,16 +76,30 @@ export function Home({ createNewToken, setListToken, listToken }) {
 					Know Before You're Low: Predictive Shopping Simplified.
 				</Text>
 				{listToken && (
-					<Text>
+					<Text fontSize={{ base: 'md', md: 'lg', lg: 'xl', xl: '2xl' }}>
 						You're currently in the '{listToken}' list. You can click 'List' in
 						the navigation above to go back to that list. You can create a new
 						list or join a different list below.
 					</Text>
 				)}
 			</Box>
-			<Flex direction="row" justify="center" align="center" mb={2}>
+			<Flex direction="row" justify="center" align="center" px={20}>
 				{/* New List Section */}
-				<Box p={3} display="flex" flexDirection="column" alignItems="center">
+				<Box
+					p={3}
+					display="flex"
+					flexDirection="column"
+					alignItems="center"
+					flexGrow={1}
+					flexShrink={1}
+				>
+					<Text
+						fontSize={{ base: 'lg', md: 'xl', lg: '2xl', xl: '3xl' }}
+						fontWeight="bold"
+						mb={4}
+					>
+						New List
+					</Text>
 					<IconButton
 						icon={<CheckCircleIcon />}
 						aria-label="New list icon"
@@ -104,9 +123,23 @@ export function Home({ createNewToken, setListToken, listToken }) {
 						Create new list!
 					</Button>
 				</Box>
-				<Spacer />
+				<Divider orientation="vertical" height="80%" color="brand.navy" />
 				{/* Existing List Section */}
-				<Box p={3} display="flex" flexDirection="column" alignItems="center">
+				<Box
+					p={3}
+					display="flex"
+					flexDirection="column"
+					alignItems="center"
+					flexGrow={1}
+					flexShrink={1}
+				>
+					<Text
+						fontSize={{ base: 'lg', md: 'xl', lg: '2xl', xl: '3xl' }}
+						fontWeight="bold"
+						mb={4}
+					>
+						Existing List
+					</Text>
 					<FormControl>
 						<form onSubmit={handleSubmit}>
 							<Flex
@@ -121,7 +154,7 @@ export function Home({ createNewToken, setListToken, listToken }) {
 									fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
 									size="xl"
 								>
-									Join an existing list!
+									Which list would you like to join?
 								</FormLabel>
 								<Flex direction="column" maxWidth="400px">
 									<Input
@@ -129,7 +162,7 @@ export function Home({ createNewToken, setListToken, listToken }) {
 										id="existingToken"
 										onChange={handleTokenChange}
 										value={existingToken}
-										placeholder=" Enter list name to join"
+										placeholder=" List name"
 										variant="outline"
 										borderColor="brand.yellow"
 										borderRadius="md"
