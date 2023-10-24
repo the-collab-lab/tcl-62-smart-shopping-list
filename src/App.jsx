@@ -55,21 +55,18 @@ export function App() {
 							isOpen={isOpen}
 							onOpen={onOpen}
 							onClose={onClose}
+							listToken={listToken}
 						/>
 					}
 				>
 					<Route
 						index
 						element={
-							listToken ? (
-								<Navigate to="/list" />
-							) : (
-								<Home
-									createNewToken={createNewToken}
-									setListToken={setListToken}
-									listToken={listToken}
-								/>
-							)
+							<Home
+								createNewToken={createNewToken}
+								setListToken={setListToken}
+								listToken={listToken}
+							/>
 						}
 					/>
 					<Route

@@ -15,7 +15,7 @@ import {
 import logo from '../images/PredictaCartLogo.png';
 import { AddItem } from '../components/AddItem.jsx';
 
-export function Layout({ data, onOpen, isOpen, onClose }) {
+export function Layout({ data, onOpen, isOpen, onClose, listToken }) {
 	const location = useLocation();
 	const isHomePage = location.pathname === '/';
 	let tabIndex;
@@ -46,7 +46,7 @@ export function Layout({ data, onOpen, isOpen, onClose }) {
 					<Image src={logo} alt="PredictaCart Logo" h="60px" />
 				</Link>
 
-				{isHomePage && (
+				{!listToken && (
 					<Center
 						as="header"
 						bg="brand.off_white"
@@ -63,16 +63,10 @@ export function Layout({ data, onOpen, isOpen, onClose }) {
 						</Heading>
 					</Center>
 				)}
-				{isHomePage ? null : (
+				{listToken && (
 					<>
-						<Center
-							as="nav"
-							p={4}
-							bg="brand.yellow"
-							boxShadow="md"
-							w={['100%', '50%']}
-						>
-							<Tabs variant="soft-rounded" size="lg">
+						<Center as="nav" p={4} w={['100%', '50%']}>
+							<Tabs variant="soft-rounded" size="lg" index={tabIndex}>
 								<TabList>
 									<Tab
 										_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
