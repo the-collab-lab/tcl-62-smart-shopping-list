@@ -1,6 +1,7 @@
 // LIBRARY IMPORTS
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import {
+	Box,
 	Flex,
 	Center,
 	Image,
@@ -47,13 +48,7 @@ export function Layout({ data, onOpen, isOpen, onClose, listToken }) {
 				</Link>
 
 				{!listToken && (
-					<Center
-						as="header"
-						bg="brand.off_white"
-						p={5}
-						boxShadow="md"
-						w={['100%', '50%']}
-					>
+					<Box px={6}>
 						<Heading
 							as="h1"
 							size={isHomePage ? '4xl' : 'xl'}
@@ -61,7 +56,7 @@ export function Layout({ data, onOpen, isOpen, onClose, listToken }) {
 						>
 							PredictaCart
 						</Heading>
-					</Center>
+					</Box>
 				)}
 				{listToken && (
 					<>
