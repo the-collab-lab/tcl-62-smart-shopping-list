@@ -12,11 +12,9 @@ import {
 	FormLabel,
 	IconButton,
 	Input,
-	Select,
-	Spacer,
 	Text,
 } from '@chakra-ui/react';
-import { SearchIcon, CheckCircleIcon } from '@chakra-ui/icons';
+import { CheckCircleIcon } from '@chakra-ui/icons';
 
 // LOCAL IMPORTS
 import { getExistingList } from '../api/firebase';
