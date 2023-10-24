@@ -66,9 +66,17 @@ export function Layout({ data, onOpen, isOpen, onClose, listToken }) {
 				{listToken && (
 					<>
 						<Center as="nav" p={4} w={['100%', '50%']}>
-							<Tabs variant="soft-rounded" size="lg" index={tabIndex}>
-								<TabList>
+							<Tabs
+								variant="soft-rounded"
+								size="lg"
+								w="100%"
+								direction={['column', 'row']}
+								index={tabIndex}
+							>
+								<TabList w="100%">
 									<Tab
+										flex="1"
+										fontSize="xl"
 										_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
 									>
 										<Link as={NavLink} to="/">
@@ -76,6 +84,8 @@ export function Layout({ data, onOpen, isOpen, onClose, listToken }) {
 										</Link>
 									</Tab>
 									<Tab
+										flex="1"
+										fontSize="xl"
 										_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
 									>
 										<Link as={NavLink} to="/list">
@@ -83,6 +93,8 @@ export function Layout({ data, onOpen, isOpen, onClose, listToken }) {
 										</Link>
 									</Tab>
 									<Tab
+										flex="1"
+										fontSize="xl"
 										_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
 										onClick={onOpen}
 									>
