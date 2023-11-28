@@ -6,7 +6,6 @@ import {
 	AlertIcon,
 	Divider,
 	Flex,
-	Image,
 	Button,
 	Text,
 	Box,
@@ -52,7 +51,7 @@ export function Home({ createNewToken, setListToken }) {
 
 	return (
 		<Flex
-			bg="brand.light_green"
+			bg="brand.off_white"
 			direction="column"
 			justifyContent="center"
 			minHeight="calc(100vh - headerHeight - navHeight)"

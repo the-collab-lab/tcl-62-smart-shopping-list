@@ -1,16 +1,16 @@
+// LIBRARY IMPORTS
 import {
 	BrowserRouter as Router,
 	Routes,
 	Route,
 	Navigate,
 } from 'react-router-dom';
+import { useDisclosure } from '@chakra-ui/react';
 
+// LOCAL IMPORTS
 import { generateToken } from '@the-collab-lab/shopping-list-utils';
-
-import { AddItem, Home, Layout, List } from './views';
-
+import { Home, Layout, List } from './views';
 import { useShoppingListData } from './api';
-
 import { useStateWithStorage } from './utils';
 
 export function App() {
@@ -42,11 +42,22 @@ export function App() {
 		const newToken = generateToken();
 		return newToken;
 	};
+	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	return (
 		<Router>
 			<Routes>
-				<Route path="/" element={<Layout />}>
+				<Route
+					path="/"
+					element={
+						<Layout
+							data={data}
+							isOpen={isOpen}
+							onOpen={onOpen}
+							onClose={onClose}
+						/>
+					}
+				>
 					<Route
 						index
 						element={
@@ -65,17 +76,13 @@ export function App() {
 						path="/list"
 						element={
 							listToken ? (
-								<List data={data} listToken={listToken} />
-							) : (
-								<Navigate to="/" />
-							)
-						}
-					/>
-					<Route
-						path="/add-item"
-						element={
-							listToken ? (
-								<AddItem listToken={listToken} data={data} />
+								<List
+									data={data}
+									listToken={listToken}
+									isOpen={isOpen}
+									onOpen={onOpen}
+									onClose={onClose}
+								/>
 							) : (
 								<Navigate to="/" />
 							)

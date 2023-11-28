@@ -1,7 +1,5 @@
 // LIBRARY IMPORTS
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AddIcon } from '@chakra-ui/icons';
 
 // LOCAL IMPORTS
 import { ListItem } from '../components';
@@ -12,7 +10,6 @@ import {
 	Spacer,
 	Center,
 	VStack,
-	Button,
 	Input,
 	FormControl,
 	Box,
@@ -21,13 +18,12 @@ import {
 } from '@chakra-ui/react';
 import { Search2Icon, CloseIcon } from '@chakra-ui/icons';
 
-export function List({ data, listToken }) {
+export function List({ data, listToken, onOpen, isOpen, onClose }) {
 	// state for input
 	const [input, setInput] = useState('');
 	const [searchData, setSearchData] = useState(data);
 	const [isValid, setIsValid] = useState(false);
 	const [searchLength, setSearchLength] = useState(1);
-	const navigate = useNavigate();
 
 	// Handle events
 	const handleInputChange = (e) => {
@@ -35,9 +31,6 @@ export function List({ data, listToken }) {
 	};
 	const handleInputClear = () => {
 		setInput('');
-	};
-	const handleClick = () => {
-		navigate('/add-item');
 	};
 
 	useEffect(() => {
@@ -74,11 +67,29 @@ export function List({ data, listToken }) {
 						<p>To add an item to your list, tap the Add Item button below.</p>
 					</Center>
 					<Center>
-						<AddItem listToken={listToken} data={data} />
+						<AddItem
+							listToken={listToken}
+							data={data}
+							isOpen={isOpen}
+							onClose={onClose}
+							onOpen={onOpen}
+						/>
 					</Center>
 				</VStack>
 			) : (
-				<VStack spacing={4} align="center">
+				<VStack
+					marginLeft="5rem"
+					divider={<StackDivider borderColor="gray.200" />}
+					spacing={4}
+					align="stretch"
+				>
+					<AddItem
+						listToken={listToken}
+						data={data}
+						isOpen={isOpen}
+						onClose={onClose}
+						onOpen={onOpen}
+					/>
 					<FormControl>
 						<Center padding="0.5em">
 							<AddItem listToken={listToken} data={data} />
