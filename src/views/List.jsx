@@ -57,7 +57,7 @@ export function List({ data, listToken, onOpen, isOpen, onClose }) {
 	}, [searchData, data.length]);
 
 	return (
-		<Flex as="div" direction="column" flex="1">
+		<Flex as="div" direction="column" align="center">
 			{data && data.length === 0 ? (
 				<VStack>
 					<Center>
@@ -77,53 +77,58 @@ export function List({ data, listToken, onOpen, isOpen, onClose }) {
 					</Center>
 				</VStack>
 			) : (
-				<VStack
-					marginLeft="5rem"
-					divider={<StackDivider borderColor="gray.200" />}
-					spacing={4}
-					align="stretch"
-				>
-					<AddItem
-						listToken={listToken}
-						data={data}
-						isOpen={isOpen}
-						onClose={onClose}
-						onOpen={onOpen}
-					/>
+				<VStack spacing={4} align="center">
 					<FormControl>
-						<Box
-							w="75%"
-							bg="brand.off_white"
-							boxShadow="md"
-							padding=".5em"
-							justifyContent="space-between"
-							alignItems="left"
-						>
-							<Search2Icon />
-							<Input
-								placeholder="Search For An Item!"
-								variant="filled"
-								focusBorderColor="black"
-								size="xlg"
-								bg="white"
-								width="auto"
-								type="text"
-								value={input}
-								onChange={handleInputChange}
-								maxLength={searchLength}
+						<Center padding="0.5em">
+							<AddItem
+								listToken={listToken}
+								data={data}
+								isOpen={isOpen}
+								onClose={onClose}
+								onOpen={onOpen}
 							/>
-							{input.length > 0 && (
-								<IconButton
+						</Center>
+						<Center align="center">
+							<Box
+								w="400px"
+								bg="brand.off_white"
+								boxShadow="md"
+								padding="0.5em"
+								justifyContent="space-between"
+								alignItems="left"
+								display="flex"
+							>
+								<Box mx="auto">
+									<Search2Icon size="sm" color="brand.navy" />
+								</Box>
+
+								<Input
+									placeholder="Search for an item"
+									variant="filled"
+									focusBorderColor="black"
 									size="lg"
-									bg="brand.navy"
-									icon={<CloseIcon />}
-									onClick={handleInputClear}
+									bg="white"
+									width="200px"
+									type="text"
+									value={input}
+									onChange={handleInputChange}
+									maxLength={searchLength}
 								/>
-							)}
-						</Box>
+
+								<Box mx="auto">
+									<IconButton
+										size="sm"
+										color="brand.off_white"
+										bg="brand.navy"
+										icon={<CloseIcon />}
+										onClick={handleInputClear}
+									/>
+								</Box>
+							</Box>
+						</Center>
 					</FormControl>
 					<Spacer />
-					<Box w="75%" bg="brand.off_white" boxShadow="md" padding=".5em">
+					<Box w="100%" bg="brand.off_white" boxShadow="md" padding=".5em">
 						{isValid ? (
 							<ul>
 								{searchData &&
