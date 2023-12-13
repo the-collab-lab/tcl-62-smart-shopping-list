@@ -1,6 +1,7 @@
 // LIBRARY IMPORTS
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import {
+	Box,
 	Flex,
 	Center,
 	Image,
@@ -15,7 +16,7 @@ import {
 import logo from '../images/PredictaCartLogo.png';
 import { AddItem } from '../components/AddItem.jsx';
 
-export function Layout({ data, onOpen, isOpen, onClose }) {
+export function Layout({ data, onOpen, isOpen, onClose, listToken }) {
 	const location = useLocation();
 	const isHomePage = location.pathname === '/';
 	let tabIndex;
@@ -46,14 +47,8 @@ export function Layout({ data, onOpen, isOpen, onClose }) {
 					<Image src={logo} alt="PredictaCart Logo" h="60px" />
 				</Link>
 
-				{isHomePage && (
-					<Center
-						as="header"
-						bg="brand.off_white"
-						p={5}
-						boxShadow="md"
-						w={['100%', '50%']}
-					>
+				{!listToken && (
+					<Box px={6}>
 						<Heading
 							as="h1"
 							size={isHomePage ? '4xl' : 'xl'}
@@ -61,20 +56,22 @@ export function Layout({ data, onOpen, isOpen, onClose }) {
 						>
 							PredictaCart
 						</Heading>
-					</Center>
+					</Box>
 				)}
-				{isHomePage ? null : (
+				{listToken && (
 					<>
-						<Center
-							as="nav"
-							p={4}
-							bg="brand.yellow"
-							boxShadow="md"
-							w={['100%', '50%']}
-						>
-							<Tabs variant="soft-rounded" size="lg">
-								<TabList>
+						<Center as="nav" p={4} w={['100%', '50%']}>
+							<Tabs
+								variant="soft-rounded"
+								size="lg"
+								w="100%"
+								direction={['column', 'row']}
+								index={tabIndex}
+							>
+								<TabList w="100%">
 									<Tab
+										flex="1"
+										fontSize="xl"
 										_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
 									>
 										<Link as={NavLink} to="/">
@@ -82,6 +79,8 @@ export function Layout({ data, onOpen, isOpen, onClose }) {
 										</Link>
 									</Tab>
 									<Tab
+										flex="1"
+										fontSize="xl"
 										_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
 									>
 										<Link as={NavLink} to="/list">
@@ -89,6 +88,8 @@ export function Layout({ data, onOpen, isOpen, onClose }) {
 										</Link>
 									</Tab>
 									<Tab
+										flex="1"
+										fontSize="xl"
 										_selected={{ color: 'brand.navy', bg: 'brand.light_green' }}
 										onClick={onOpen}
 									>

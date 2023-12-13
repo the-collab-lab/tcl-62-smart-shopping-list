@@ -4,20 +4,22 @@ import React, { useState } from 'react';
 import {
 	Alert,
 	AlertIcon,
+	Box,
+	Button,
 	Divider,
 	Flex,
-	Button,
-	Text,
-	Box,
 	FormControl,
 	FormLabel,
+	IconButton,
 	Input,
+	Text,
 } from '@chakra-ui/react';
+import { CheckCircleIcon } from '@chakra-ui/icons';
 
 // LOCAL IMPORTS
 import { getExistingList } from '../api/firebase';
 
-export function Home({ createNewToken, setListToken }) {
+export function Home({ createNewToken, setListToken, listToken }) {
 	let navigate = useNavigate();
 
 	// STATES
@@ -27,9 +29,7 @@ export function Home({ createNewToken, setListToken }) {
 	// EVENT HANDLERS
 	const handleClick = () => {
 		const newToken = createNewToken();
-		//save the token using setListToken function asign to listToken
 		setListToken(newToken);
-		//navigate to the list
 		navigate('/list');
 	};
 
@@ -53,106 +53,152 @@ export function Home({ createNewToken, setListToken }) {
 		<Flex
 			bg="brand.off_white"
 			direction="column"
-			justifyContent="center"
 			minHeight="calc(100vh - headerHeight - navHeight)"
 			flex="1"
 		>
-			<Box p={6} display="flex" flexDirection="column" alignItems="center">
+			<Box
+				p={3}
+				display="flex"
+				flexDirection="column"
+				alignItems="center"
+				mb={4}
+			>
 				<Text
-					fontSize={{ base: '2xl', md: '3xl', lg: '4xl', xl: '5xl' }}
+					fontSize={{ base: 'lg', md: 'xl', lg: '2xl', xl: '3xl' }}
 					fontWeight="bold"
 					color="brand.navy"
-					p={4}
-					mb={8}
+					p={2}
+					mb={4}
 					textAlign="center"
 				>
-					Say hello to stress-free shopping and welcome what truly matters.
+					Know Before You're Low: Predictive Shopping Simplified.
 				</Text>
-			</Box>
-			<Flex direction="row" justify="center" align="center" gap={6} p={6}>
-				<Button
-					bg="brand.yellow"
-					textColor="brand.navy"
-					onClick={handleClick}
-					fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
-					size="xl"
-					_hover={{
-						bg: 'brand.orange',
-						textColor: 'brand.off_white',
-					}}
-					mt={6}
-					mb={6}
-					p={4}
-					borderRadius="md" // Add a rounded border for better accessibility.
-					aria-label="Click me to create a new list" // Add an aria-label for screen readers.
-				>
-					Create a new list
-				</Button>
-			</Flex>
-			<FormControl>
-				<form onSubmit={handleSubmit}>
-					<Flex
-						bg="brand.light_green"
-						direction="column"
-						justify="center"
-						align="center"
-						gap={2}
-						pt={4}
-					>
-						<Divider orientation="horizontal" />
-						<FormLabel
-							htmlFor="existingToken"
-							fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
-							size="xl"
-						>
-							Join an existing list!
-						</FormLabel>
-						<Flex
-							direction="column" // You can keep this as 'column' for vertical alignment
-							maxWidth="400px" // Limit the input's width
-						>
-							<Input
-								type="text"
-								id="existingToken"
-								onChange={handleTokenChange}
-								value={existingToken}
-								placeholder=" Enter list name to join"
-								variant="outline"
-								borderColor="brand.yellow"
-								borderRadius="md"
-								aria-label="Enter list name to join" // ARIA label for the input field
-							/>
-						</Flex>
-
-						<Button
-							type="submit"
-							bg="brand.yellow"
-							textColor="brand.navy"
-							onChange={handleTokenChange}
-							fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
-							size="xl"
-							_hover={{
-								bg: 'brand.orange',
-								textColor: 'brand.off_white',
-							}}
-							mt={6}
-							mb={6}
-							p={4}
-							borderRadius="md"
-							aria-label="Click me to join an existing list"
-						>
-							Submit
-						</Button>
-					</Flex>
-				</form>
-
-				{status && (
-					<Alert status="error">
-						{' '}
-						<AlertIcon /> {status}
-					</Alert>
+				{listToken && (
+					<Text fontSize={{ base: 'md', md: 'lg', lg: 'xl', xl: '2xl' }}>
+						You're currently in the '{listToken}' list. You can click 'List' in
+						the navigation above to go back to that list. You can create a new
+						list or join a different list below.
+					</Text>
 				)}
-			</FormControl>
+			</Box>
+			<Flex direction="row" justify="center" align="center" px={20}>
+				{/* New List Section */}
+				<Box
+					p={3}
+					display="flex"
+					flexDirection="column"
+					alignItems="center"
+					flexGrow={1}
+					flexShrink={1}
+				>
+					<Text
+						fontSize={{ base: 'lg', md: 'xl', lg: '2xl', xl: '3xl' }}
+						fontWeight="bold"
+						mb={4}
+					>
+						New List
+					</Text>
+					<IconButton
+						icon={<CheckCircleIcon />}
+						aria-label="New list icon"
+						size="xl"
+						variant="ghost"
+						mb={4}
+					/>
+					<Button
+						bg="brand.yellow"
+						textColor="brand.navy"
+						onClick={handleClick}
+						fontSize="lg"
+						size="md"
+						_hover={{
+							bg: 'brand.orange',
+							textColor: 'brand.off_white',
+						}}
+						borderRadius="md"
+						aria-label="Click me to create a new list"
+					>
+						Create new list!
+					</Button>
+				</Box>
+				<Divider orientation="vertical" height="80%" color="brand.navy" />
+				{/* Existing List Section */}
+				<Box
+					p={3}
+					display="flex"
+					flexDirection="column"
+					alignItems="center"
+					flexGrow={1}
+					flexShrink={1}
+				>
+					<Text
+						fontSize={{ base: 'lg', md: 'xl', lg: '2xl', xl: '3xl' }}
+						fontWeight="bold"
+						mb={4}
+					>
+						Existing List
+					</Text>
+					<FormControl>
+						<form onSubmit={handleSubmit}>
+							<Flex
+								direction="column"
+								justify="center"
+								align="center"
+								gap={2}
+								pt={4}
+							>
+								<FormLabel
+									htmlFor="existingToken"
+									fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
+									size="xl"
+								>
+									Which list would you like to join?
+								</FormLabel>
+								<Flex direction="column" maxWidth="400px">
+									<Input
+										type="text"
+										id="existingToken"
+										onChange={handleTokenChange}
+										value={existingToken}
+										placeholder=" List name"
+										variant="outline"
+										borderColor="brand.yellow"
+										borderRadius="md"
+										aria-label="Enter list name to join"
+									/>
+								</Flex>
+
+								<Button
+									type="submit"
+									bg="brand.yellow"
+									textColor="brand.navy"
+									onChange={handleTokenChange}
+									fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}
+									size="xl"
+									_hover={{
+										bg: 'brand.orange',
+										textColor: 'brand.off_white',
+									}}
+									mt={6}
+									mb={6}
+									p={4}
+									borderRadius="md"
+									aria-label="Click me to join an existing list"
+								>
+									Submit
+								</Button>
+							</Flex>
+						</form>
+
+						{status && (
+							<Alert status="error">
+								{' '}
+								<AlertIcon /> {status}
+							</Alert>
+						)}
+					</FormControl>
+				</Box>
+			</Flex>
 		</Flex>
 	);
 }
