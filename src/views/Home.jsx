@@ -18,8 +18,9 @@ import { CheckCircleIcon } from '@chakra-ui/icons';
 
 // LOCAL IMPORTS
 import { getExistingList } from '../api/firebase';
+import { ArchivalNoticeModal } from '@the-collab-lab/shopping-list-utils';
 
-export function Home({ createNewToken, setListToken, listToken }) {
+export function Home({ setListToken, listToken }) {
 	let navigate = useNavigate();
 
 	// STATES
@@ -28,9 +29,10 @@ export function Home({ createNewToken, setListToken, listToken }) {
 
 	// EVENT HANDLERS
 	const handleClick = () => {
-		const newToken = createNewToken();
-		setListToken(newToken);
-		navigate('/list');
+		// const newToken = createNewToken();
+		// setListToken(newToken);
+		// navigate('/list');
+		console.log('Creating new lists is no longer supported.');
 	};
 
 	const handleTokenChange = (e) => {
@@ -199,6 +201,7 @@ export function Home({ createNewToken, setListToken, listToken }) {
 					</FormControl>
 				</Box>
 			</Flex>
+			<ArchivalNoticeModal />
 		</Flex>
 	);
 }

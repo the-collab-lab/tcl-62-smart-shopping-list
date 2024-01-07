@@ -14,7 +14,6 @@ import {
 	FormControl,
 	Box,
 	IconButton,
-	StackDivider,
 } from '@chakra-ui/react';
 import { Search2Icon, CloseIcon } from '@chakra-ui/icons';
 
